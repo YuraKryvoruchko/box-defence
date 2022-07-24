@@ -1,22 +1,44 @@
+using System;
 using UnityEngine;
 using BoxDefence.Towers;
 
-public class Cell : MonoBehaviour
+namespace BoxDefence
 {
-    [SerializeField] private bool _towerSet = false;
-
-    private Tower _tower;
-
-    public void SetTower(Tower tower)
+    public class Cell : MonoBehaviour
     {
-        if (_towerSet == true)
-            return;
+        #region Fields
 
-        Tower createTower = Instantiate(tower, transform, true);
+        [SerializeField] private Tower _tower;
 
-        _tower = createTower;
-        _tower.SetTower(transform.position + Vector3.back * 2);
+        #endregion
 
-        _towerSet = true;
+        #region Actions
+
+        public static event Action<Cell> OnTap;
+
+        #endregion
+
+        #region Public Methond
+
+        public bool CanSetTower()
+        {
+            if (_tower == null)
+                return true;
+            else
+                return false;
+        }
+
+        public void SetTower(Tower tower)
+        {
+            if (CanSetTower() == false)
+                return;
+
+            Tower createTower = Instantiate(tower, transform, true);
+
+            _tower = createTower;
+            _tower.SetTower(transform.position + Vector3.back * 2);
+        }
+
+        #endregion
     }
 }

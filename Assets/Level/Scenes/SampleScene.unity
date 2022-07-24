@@ -1456,7 +1456,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 286259642}
-  - component: {fileID: 286259641}
   m_Layer: 0
   m_Name: TowerPicker
   m_TagString: Untagged
@@ -1464,20 +1463,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &286259641
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 286259640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c870db2fe656274e8475aa66e1f6ac4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _currentTower: {fileID: 0}
-  _speedChengTransform: 0.01
 --- !u!4 &286259642
 Transform:
   m_ObjectHideFlags: 0
@@ -1615,7 +1600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1e21a8d3a35a6c449a5d15735a0a8eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _towerSet: 0
+  _tower: {fileID: 0}
 --- !u!1 &301061942
 GameObject:
   m_ObjectHideFlags: 0
@@ -7365,7 +7350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1e21a8d3a35a6c449a5d15735a0a8eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _towerSet: 0
+  _tower: {fileID: 0}
 --- !u!1 &1210266605
 GameObject:
   m_ObjectHideFlags: 0
@@ -7601,7 +7586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1e21a8d3a35a6c449a5d15735a0a8eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _towerSet: 0
+  _tower: {fileID: 0}
 --- !u!212 &1272631047
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7948,7 +7933,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1e21a8d3a35a6c449a5d15735a0a8eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _towerSet: 0
+  _tower: {fileID: 0}
 --- !u!1 &1327658509
 GameObject:
   m_ObjectHideFlags: 0
@@ -12593,7 +12578,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1e21a8d3a35a6c449a5d15735a0a8eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _towerSet: 0
+  _tower: {fileID: 0}
 --- !u!1 &2043779363
 GameObject:
   m_ObjectHideFlags: 0
@@ -12794,7 +12779,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1e21a8d3a35a6c449a5d15735a0a8eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _towerSet: 0
+  _tower: {fileID: 0}
 --- !u!1 &2057386044
 GameObject:
   m_ObjectHideFlags: 0
