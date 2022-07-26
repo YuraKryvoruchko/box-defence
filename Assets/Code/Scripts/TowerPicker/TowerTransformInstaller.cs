@@ -6,24 +6,34 @@ namespace BoxDefence
     {
         #region Fields
 
+        [SerializeField] private Camera _mainCamera;
+
         private TowerPicker _towerPicker;
+        private CellFinder _cellFinder;
+
+        private InputSystem _inputSystem;
 
         #endregion
 
         #region Unity Methods
 
-        private void Start()
+        private void Awake()
         {
-            _towerPicker = new TowerPicker();
+            _inputSystem = new InputSystem();
         }
-
         private void OnEnable()
         {
-            Cell.OnTap += SetTower;
+            _inputSystem.Enable();
         }
         private void OnDisable()
         {
-            Cell.OnTap -= SetTower;
+            _inputSystem.Disable();
+        }
+        private void Start()
+        {
+            _towerPicker = new TowerPicker();
+            _cellFinder = new CellFinder(_inputSystem, _mainCamera);
+            _cellFinder.ClickingOnCell += SetTower;
         }
 
         #endregion

@@ -34,7 +34,6 @@ SpriteAtlas:
     - {fileID: -226603004103698765, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
     - {fileID: 8961202016936256020, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
     - {fileID: -2299111931043319929, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
-    - {fileID: 4743423488893750287, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
     - {fileID: -5929366747537976361, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
     - {fileID: -557312971071842553, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
     - {fileID: -2497121891163786564, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
@@ -62,7 +61,7 @@ SpriteAtlas:
     - {fileID: -3277000485652082031, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
     - {fileID: -1576326215038801376, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
     - {fileID: 3594244459380735170, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
-    totalSpriteSurfaceArea: 543490
+    totalSpriteSurfaceArea: 543090
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -92,7 +91,6 @@ SpriteAtlas:
   - {fileID: -2443026087530986172, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
   - {fileID: -1576326215038801376, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
   - {fileID: -3277000485652082031, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
-  - {fileID: 4743423488893750287, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
   - {fileID: 7533922338128173972, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
   - {fileID: -2497121891163786564, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
   - {fileID: -557312971071842553, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
@@ -124,7 +122,6 @@ SpriteAtlas:
   - Towers_1_Level_1
   - Towers_1_Level_5
   - Towers_1_Level_4
-  - Enemy_0
   - Towers_1_Level_
   - Paladin_0
   - Lightning

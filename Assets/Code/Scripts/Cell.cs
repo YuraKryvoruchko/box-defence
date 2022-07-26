@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using BoxDefence.Towers;
 
@@ -9,12 +8,6 @@ namespace BoxDefence
         #region Fields
 
         [SerializeField] private Tower _tower;
-
-        #endregion
-
-        #region Actions
-
-        public static event Action<Cell> OnTap;
 
         #endregion
 
