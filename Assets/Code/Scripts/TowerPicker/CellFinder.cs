@@ -1,8 +1,6 @@
 ﻿using System;
 using UnityEngine;
 
-using CallbackContext = UnityEngine.InputSystem.InputAction.CallbackContext;
-
 namespace BoxDefence
 {
     public class CellFinder
@@ -29,16 +27,16 @@ namespace BoxDefence
         {
             _mainCamera = mainCamera;
             _inputSystem = inputSystem;
-            _inputSystem.Touch.TouchPosition.performed += (ctx) => TryGetCell(ctx);
+            _inputSystem.Touch.TouchTap.performed += context => TryGetCell();
         }
 
         #endregion
 
         #region Private Methods
 
-        private void TryGetCell(CallbackContext callbackContext)
+        private void TryGetCell()
         {
-            Vector2 tapPosition = callbackContext.ReadValue<Vector2>();
+            Vector2 tapPosition = _inputSystem.Touch.TouchPosition.ReadValue<Vector2>();
 
             Vector3 startPosition = _mainCamera.ScreenToWorldPoint(tapPosition);
 
@@ -48,10 +46,17 @@ namespace BoxDefence
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, RAY_DISTANCE);
             Physics2D.queriesHitTriggers = true;
 
-            if (hit.transform.TryGetComponent(out Cell cell))
-                ClickingOnCell?.Invoke(cell);
+            if (hit.collider != null)
+            {
+                if (hit.collider.TryGetComponent(out Cell cell) == true)
+                    ClickingOnCell?.Invoke(cell);
+                else
+                    Debug.LogWarning("Hit don't is cell");
+            }
             else
-                Debug.LogWarning("Hit don't is cell");
+            {
+                Debug.LogWarning("Tap in emptiness");
+            }
         }
 
         #endregion
