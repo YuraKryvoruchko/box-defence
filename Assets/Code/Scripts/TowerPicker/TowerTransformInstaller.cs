@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using BoxDefence.WalletSystem;
 
 namespace BoxDefence
 {
@@ -8,8 +9,11 @@ namespace BoxDefence
 
         [SerializeField] private Camera _mainCamera;
 
+        [SerializeField] private Wallet _wallet;
+
         private TowerPicker _towerPicker;
         private CellFinder _cellFinder;
+        private TowerBuyer _towerBuyer;
 
         private InputSystem _inputSystem;
 
@@ -32,6 +36,7 @@ namespace BoxDefence
         private void Start()
         {
             _towerPicker = new TowerPicker();
+            _towerBuyer = new TowerBuyer(_wallet);
             _cellFinder = new CellFinder(_inputSystem, _mainCamera);
             _cellFinder.ClickingOnCell += SetTower;
         }
@@ -44,14 +49,15 @@ namespace BoxDefence
         {
             if (_towerPicker.IsTowerSelected() == true)
             {
-                if (cell.CanSetTower() == true)
-                    cell.SetTower(_towerPicker.Tower);
-                else
-                    Debug.LogWarning("Cell is empty");
-            }
-            else
-            {
-                Debug.LogWarning("Tower not selected");
+                if (cell.IsTowerSet() == false)
+                {
+                    if (_towerBuyer.CanBuyTower(_towerPicker.Tower.Price))
+                    {
+                        cell.SetTower(_towerPicker.Tower);
+
+                        _towerBuyer.BuyTower(cell.Tower);
+                    }
+                }
             }
         }
 

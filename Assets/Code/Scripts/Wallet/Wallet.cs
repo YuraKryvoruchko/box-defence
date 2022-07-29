@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace BoxDefence.Wallet
+namespace BoxDefence.WalletSystem
 {
     [CreateAssetMenu(fileName = "WalletSO", menuName = "Box Defence/WalletSO", order = 0)]
     public class Wallet : ScriptableObject

@@ -32,9 +32,15 @@ namespace BoxDefence
         public bool IsTowerSelected()
         {
             if (_currentTower != null)
+            {
                 return true;
+            }
             else
+            {
+                Debug.LogWarning("Tower not selected");
+
                 return false;
+            }
         }
 
         #endregion

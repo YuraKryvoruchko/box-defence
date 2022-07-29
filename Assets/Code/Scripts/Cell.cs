@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using BoxDefence.Towers;
 
@@ -11,25 +12,48 @@ namespace BoxDefence
 
         #endregion
 
+        #region Properties
+
+        public Tower Tower { get => _tower; }
+
+        #endregion
+
         #region Public Methond
 
-        public bool CanSetTower()
+        public bool IsTowerSet()
         {
-            if (_tower == null)
+            if (_tower != null)
+            {
                 return true;
+            }
             else
+            {
+                Debug.LogWarning("Cell is empty");
+
                 return false;
+            }
         }
 
         public void SetTower(Tower tower)
         {
-            if (CanSetTower() == false)
-                return;
+            try
+            {
+                if (IsTowerSet() == true)
+                    throw new Exception("You are trying to install a tower, but the tower is installed!");
 
-            Tower createTower = Instantiate(tower, transform, true);
+                Tower createTower = Instantiate(tower, transform, true);
 
-            _tower = createTower;
-            _tower.SetTower(transform.position + Vector3.back * 2);
+                _tower = createTower;
+                _tower.SetTower(transform.position + Vector3.back * 2);
+            }
+            catch(Exception exception)
+            {
+                Debug.LogException(exception);
+            }
+        }
+        public void DeleteTower()
+        {
+            _tower.DeleteTower();
         }
 
         #endregion
