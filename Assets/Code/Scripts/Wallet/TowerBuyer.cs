@@ -25,10 +25,16 @@ namespace BoxDefence.WalletSystem
 
         public bool CanBuyTower(int price)
         {
-            Debug.LogWarning("You can buy tower");
+            bool canBuy = _wallet.CanGetMoney(price);
 
-            return _wallet.CanGetMoney(price);
+            if (canBuy == true)
+                return true;
+            else
+                Debug.LogWarning("You don`t buy tower");
+
+            return false;
         }
+
         public void BuyTower(ITowerPriceList towerPriceList)
         {
             if (_wallet.CanGetMoney(towerPriceList.Price) == true)

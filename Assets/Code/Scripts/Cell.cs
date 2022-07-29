@@ -24,12 +24,12 @@ namespace BoxDefence
         {
             if (_tower != null)
             {
+                Debug.LogWarning("Cell is empty");
+
                 return true;
             }
             else
             {
-                Debug.LogWarning("Cell is empty");
-
                 return false;
             }
         }
