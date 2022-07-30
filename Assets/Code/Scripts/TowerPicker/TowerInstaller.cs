@@ -3,7 +3,7 @@ using BoxDefence.WalletSystem;
 
 namespace BoxDefence
 {
-    public class TowerTransformInstaller : MonoBehaviour
+    public class TowerInstaller : MonoBehaviour
     {
         #region Fields
 
