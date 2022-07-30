@@ -8484,8 +8484,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pools:
-  - <PrefabObject>k__BackingField: {fileID: 2865049102613262508, guid: a7459052036d6de40aaf8a886c3bfa3a, type: 3}
-    <Size>k__BackingField: 50
+  - <Type>k__BackingField: 0
+    <PrefabObject>k__BackingField: {fileID: 2865049102613262508, guid: a7459052036d6de40aaf8a886c3bfa3a, type: 3}
+    <Size>k__BackingField: 5
 --- !u!4 &1349847953
 Transform:
   m_ObjectHideFlags: 0

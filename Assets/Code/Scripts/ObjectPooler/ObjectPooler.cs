@@ -8,11 +8,12 @@ namespace BoxDefence.Pooling
     {
         [SerializeField] private List<Pool> _pools;
 
-        private Dictionary<IPool, Queue<IPool>> _poolDictionary;
+        private Dictionary<PoolType, Queue<IPool>> _poolDictionary;
 
         [Serializable]
         private class Pool
         {
+            [field: SerializeField] public PoolType Type { get; private set; }
             [field: SerializeField] public GameObject PrefabObject { get; private set; }
 
             [field: SerializeField] public int Size { get; set; }
@@ -29,8 +30,8 @@ namespace BoxDefence.Pooling
 
         private void Start()
         {
-            _poolDictionary = new Dictionary<IPool, Queue<IPool>>();  
-
+            _poolDictionary = new Dictionary<PoolType, Queue<IPool>>();  
+            
             CreateObjects();
         }
 
@@ -38,7 +39,7 @@ namespace BoxDefence.Pooling
         {
             if (instace.TryGetComponent(out IPool pool))
             {
-                if (_poolDictionary.TryGetValue(pool, out Queue<IPool> instances))
+                if (_poolDictionary.TryGetValue(pool.PoolTypeObject, out Queue<IPool> instances))
                     instances.Enqueue(pool);
                 else
                     Debug.LogWarning("Pool with type object: " + instace + " doesn`t excits.");
@@ -46,9 +47,20 @@ namespace BoxDefence.Pooling
         }
         public T GetObject<T>(T prefab, Vector3 position, Quaternion rotation) where T : IPool
         {
-            if (_poolDictionary.TryGetValue(prefab, out Queue<IPool> instances))
+            if (_poolDictionary.TryGetValue(prefab.PoolTypeObject, out Queue<IPool> instances))
             {
-                IPool objectToSpawn = instances.Dequeue();
+                IPool objectToSpawn;
+
+                if (instances.Count == 0)
+                {
+                    foreach (Pool pool in _pools)
+                    {
+                        if (pool.Type == prefab.PoolTypeObject)
+                            CreateObjs(pool);
+                    }
+                }
+
+                objectToSpawn = instances.Dequeue();
 
                 objectToSpawn.Init(position, rotation);
 
@@ -80,7 +92,22 @@ namespace BoxDefence.Pooling
                             createObjects.Enqueue(poolPresent1);
                     }
 
-                    _poolDictionary.Add(poolPresent, createObjects);
+                    _poolDictionary.Add(poolPresent.PoolTypeObject, createObjects);
+                }
+            }
+        }
+        private void CreateObjs(Pool poolObject)
+        {
+            for (int i = 0; i < poolObject.Size; i++)
+            {
+                GameObject instace = Instantiate(poolObject.PrefabObject);
+
+                instace.SetActive(false);
+
+                if (instace.TryGetComponent(out IPool poolPresent1))
+                {
+                    if (_poolDictionary.TryGetValue(poolPresent1.PoolTypeObject, out Queue<IPool> createObjects))
+                        createObjects.Enqueue(poolPresent1);
                 }
             }
         }

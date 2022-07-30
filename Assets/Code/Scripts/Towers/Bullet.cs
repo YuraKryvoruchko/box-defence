@@ -7,8 +7,11 @@ public class Bullet : MonoBehaviour, IPool
     [Header("Ñharacteristics")]
     [SerializeField] private float _damage;
     [SerializeField] private float _speed;
+    [field: Space]
 
     private Enemy _targetEnemy;
+
+    [field: SerializeField] public PoolType PoolTypeObject { get; private set; }
 
     private void Update()
     {
@@ -21,10 +24,16 @@ public class Bullet : MonoBehaviour, IPool
         {
             enemy.TakeDamage(_damage);
 
-            Destroy(gameObject);
+            Destroy();
         }
     }
+    public void Init(Vector3 position, Quaternion rotation)
+    {
+        gameObject.SetActive(true);
 
+        transform.position = position;
+        transform.rotation = rotation;
+    }
     public void OnStart(float damage, Enemy target)
     {
         _damage = damage;
@@ -38,14 +47,12 @@ public class Bullet : MonoBehaviour, IPool
         if (_targetEnemy != null)
             transform.position = Vector3.MoveTowards(transform.position, _targetEnemy.transform.position, step);
         else
-            Destroy(gameObject);
+            Destroy();
     }
-
-    public void Init(Vector3 position, Quaternion rotation)
+    private void Destroy()
     {
-        gameObject.SetActive(true);
+        ObjectPooler.Instance.DeleteObject(gameObject);
 
-        transform.position = position;
-        transform.rotation = rotation;
+        gameObject.SetActive(false);
     }
 }
