@@ -14,6 +14,7 @@ namespace BoxDefence.Pooling
         private class Pool
         {
             [field: SerializeField] public PoolType Type { get; private set; }
+
             [field: SerializeField] public GameObject PrefabObject { get; private set; }
 
             [field: SerializeField] public int Size { get; set; }

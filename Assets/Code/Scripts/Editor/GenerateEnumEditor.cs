@@ -1,34 +1,53 @@
 ﻿using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 [CustomEditor(typeof(GenerateEnum))]
 public class GenerateEnumEditor : Editor
 {
+    #region Fields
+
     private GenerateEnum _generateEnum;
+
+    #endregion
+
+    #region Unity Methonds
 
     private void OnEnable()
     {
         _generateEnum = (GenerateEnum)target;
     }
 
+    #endregion
+
+    #region GUI
+
     public override void OnInspectorGUI()
     {
         _generateEnum.EnumName = EditorGUILayout.TextField("EnumName", _generateEnum.EnumName);
 
+        EditorGUILayout.Space(10);
+
         _generateEnum.FilePathAndName = EditorGUILayout.TextField("FilePathAndName", _generateEnum.FilePathAndName);
+
+        EditorGUILayout.Space(10);
 
         _generateEnum.ShowEntries = EditorGUILayout.Foldout(_generateEnum.ShowEntries, "Entries", false);
 
         if (_generateEnum.ShowEntries == true)
             ShowEnumEntries();
 
+        EditorGUILayout.Space(20);
+
         CretaeButtonForCreateEnum();
 
         if (GUI.changed == true)
             EditorUtility.SetDirty(_generateEnum);
     }
+
+    #endregion
+
+    #region Private GUI Methods
 
     private void CretaeButtonForCreateEnum()
     {
@@ -62,4 +81,6 @@ public class GenerateEnumEditor : Editor
         if (GUILayout.Button("Add"))
             _generateEnum.EnumEntries.Add(null);
     }
+
+    #endregion
 }
