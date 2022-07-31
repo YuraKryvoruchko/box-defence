@@ -8485,7 +8485,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pools:
   - <Type>k__BackingField: 0
-    <InterfaceReference>k__BackingField:
+    <Prefab>k__BackingField:
       _underlyingValue: {fileID: 6448705451477896428, guid: a7459052036d6de40aaf8a886c3bfa3a, type: 3}
     <Size>k__BackingField: 5
 --- !u!4 &1349847953
