@@ -2,7 +2,7 @@ using UnityEngine;
 using BoxDefence.AI;
 using BoxDefence.Pooling;
 
-public class Bullet : MonoBehaviour, IPool
+public class Bullet : MonoBehaviour, IPoolObject
 {
     [Header("Ñharacteristics")]
     [SerializeField] private float _damage;
@@ -51,7 +51,7 @@ public class Bullet : MonoBehaviour, IPool
     }
     private void Destroy()
     {
-        ObjectPooler.Instance.DeleteObject(gameObject);
+        ObjectPooler.Instance.DeleteObject(this);
 
         gameObject.SetActive(false);
     }

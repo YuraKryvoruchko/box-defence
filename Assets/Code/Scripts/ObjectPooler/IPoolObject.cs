@@ -2,7 +2,7 @@
 
 namespace BoxDefence.Pooling
 {
-    public interface IPool
+    public interface IPoolObject
     {
         PoolType PoolTypeObject { get; }
 

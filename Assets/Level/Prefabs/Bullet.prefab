@@ -97,7 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9708312c60ab7024e8733f042eabd885, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myEnum: 1
   _damage: 0
   _speed: 3
   <PoolTypeObject>k__BackingField: 0
