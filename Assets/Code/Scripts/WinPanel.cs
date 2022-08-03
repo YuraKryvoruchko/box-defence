@@ -8,11 +8,11 @@ namespace BoxDefence.UI
 
         private void OnEnable()
         {
-            EnemyCounter.AllEnemyWavesKills += OnWin;
+            EnemyCounter.AllWavesDestroyed += OnWin;
         }
         private void OnDisable()
         {
-            EnemyCounter.AllEnemyWavesKills -= OnWin;
+            EnemyCounter.AllWavesDestroyed -= OnWin;
         }
 
         public void OnWin()

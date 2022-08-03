@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6de7f72fc9bf3254e94cd6f7b30e5d6c, type: 3}
   m_Name: WalletSO
   m_EditorClassIdentifier: 
-  _countMoney: 240
+  _countMoney: 980

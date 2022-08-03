@@ -2,49 +2,39 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Random = UnityEngine.Random;
+
 namespace BoxDefence.AI
 {
-    public class Enemy : MonoBehaviour
+    public class Enemy : MonoBehaviour, IWalking
     {
         [Header("Ñharacteristics")]
         [SerializeField] private float _damage = 100f;
         [Space]
         [SerializeField] private float _speed = 1f;
+        [Space]
+        [SerializeField] private Vector3 _offset = new Vector3(0.5f, 0.5f, 0);
 
         private List<Transform> _wayPoints;
 
-        private int _indexPoint = 0;
+        private Vector3 _currentOffset = Vector3.zero;
+        private Vector3 _pointPosition;
 
-        public event Action OnDead;
+        private int _indexPoint = -1;
+
+        public event Action<Enemy> OnDead;
 
         public static event Action OnLastPoint;
 
         private void Update()
         {
-            if (_indexPoint < _wayPoints.Count - 1)
+            if (transform.position == _pointPosition)
             {
-                Vector3 targetPosition = new Vector3(_wayPoints[_indexPoint].position.x, 
-                                                     _wayPoints[_indexPoint].position.y, 
-                                                     -1);
-
-                if (transform.position == targetPosition)
-                    _indexPoint++;
-            }
-            else
-            {
-                Vector3 targetPosition = new Vector3(_wayPoints[_indexPoint].position.x,
-                                                     _wayPoints[_indexPoint].position.y,
-                                                     -1);
-
-                if (transform.position == targetPosition)
-                {
-                    Debug.Log("Lost");
-
-                    OnLastPoint?.Invoke();
-
-                    Destroy(gameObject);
-                }
-            }
+                if (IsLastPoint() == false)
+                    ChangePoint();
+                else
+                    Destroy();
+            }  
 
             WalkToPoint();
         }
@@ -55,15 +45,22 @@ namespace BoxDefence.AI
 
             if (_damage <= 0)
             {
-                OnDead?.Invoke();
+                OnDead?.Invoke(this);
 
                 OnDead = null;
 
                 Destroy(gameObject);
             }
         }
-
         public void Init(List<Transform> wayPoints)
+        {
+            _currentOffset = GetAndCreateRandomOffset();
+
+            ChangeWayPoints(wayPoints);
+            ChangePoint();
+            WalkToPoint();
+        }
+        public void ChangeWayPoints(List<Transform> wayPoints)
         {
             _wayPoints = wayPoints;
         }
@@ -72,11 +69,36 @@ namespace BoxDefence.AI
         {
             float step = _speed * Time.deltaTime;
 
-            Vector3 pointPosition = new Vector3(_wayPoints[_indexPoint].position.x, 
-                                                _wayPoints[_indexPoint].position.y, 
-                                                transform.position.z);
+            transform.position = Vector3.MoveTowards(transform.position, _pointPosition, step);
+        }
+        private void ChangePoint()
+        {
+            _indexPoint++;
 
-            transform.position = Vector3.MoveTowards(transform.position, pointPosition, step);
+            _pointPosition = _wayPoints[_indexPoint].position + _currentOffset;
+        }
+        private void Destroy()
+        {
+            OnDead?.Invoke(this);
+            OnLastPoint?.Invoke();
+
+            Destroy(gameObject);
+        }
+        private bool IsLastPoint()
+        {
+            if (_indexPoint == _wayPoints.Count - 1)
+                return true;
+            else
+                return false;
+        }
+        private Vector3 GetAndCreateRandomOffset()
+        {
+            float xPosition = Random.Range(-_offset.x, _offset.x);
+            float yPosition = Random.Range(-_offset.y, _offset.y);
+
+            Vector3 offset = new Vector3(xPosition, yPosition);
+
+            return offset;
         }
     }
 }
