@@ -12,7 +12,7 @@ namespace BoxDefence
         #region Fields
 
         [SerializeField] private List<Vector2> _path;
-        [SerializeField] private Transform _endPosition;
+        [SerializeField] private Transform _target;
         [SerializeField] private Tilemap _tilemap;
         [Space]
         [SerializeField] private List<Waves> _waves;
@@ -40,7 +40,7 @@ namespace BoxDefence
 
             _enemyCounter = new EnemyCounter(_waves.Count, allEnemy);
             _pathFinder = new PathFinder(_tilemap);
-            _path = _pathFinder.GetPath(transform.position, _endPosition.position);
+            _path = _pathFinder.GetPath(transform.position, _target.position);
 
             CreateWaves();
         }
@@ -53,7 +53,20 @@ namespace BoxDefence
                 _pathFinder.OnDrawPath();
         }
 
-        #endif
+#endif
+
+        #endregion
+
+        #region Public Methods
+
+        public void SetTilemap(Tilemap tilemap)
+        {
+            _tilemap = tilemap;
+        }
+        public void SetTarget(Transform target)
+        {
+            _target = target;
+        }
 
         #endregion
 
