@@ -226,6 +226,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dfed84a460ebe044b6b326291082e4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _price: 10
+  _priceReturn: 5
   _enemysInShootZone: []
   _shootRate: 1
   _damage: 20

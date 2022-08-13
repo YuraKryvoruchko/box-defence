@@ -16,11 +16,11 @@ namespace BoxDefence
 
         private List<Enemy> _createdEnemys;
 
-        private List<Transform> _wayPoints;
+        private List<Vector2> _path;
 
         private readonly Vector3 OFFSET = new Vector3(0.5f, 0.5f, 0f);
 
-        public event Action<List<Transform>> OnChangeWayPoints;
+        public event Action<List<Vector2>> OnChangePath;
         public event Action AllEnemyKills;
 
         #endregion
@@ -39,23 +39,23 @@ namespace BoxDefence
 
         #region Public Methonds
 
-        public void Init(List<Transform> wayPoints)
+        public void Init(List<Vector2> path)
         {
-            ChangeWayPoints(wayPoints);
+            ChangePath(path);
             _createdEnemys = new List<Enemy>();
         }
-        public void ChangeWayPoints(List<Transform> wayPoints)
+        public void ChangePath(List<Vector2> path)
         {
-            _wayPoints = wayPoints;
+            _path = path;
 
-            OnChangeWayPoints?.Invoke(_wayPoints);
+            OnChangePath?.Invoke(_path);
         }
-        public void CreateEnemy()
+        public void CreateEnemy(Vector3 spawnPosition)
         {
             try
             {
-                if (_wayPoints == null)
-                    throw new Exception("Waypoints dont a set!");
+                if (_path == null)
+                    throw new Exception("Path dont a set!");
 
                 foreach(EnemyCount enemy in _enemyPrefabs)
                 {
@@ -63,13 +63,12 @@ namespace BoxDefence
                     {
                         Vector3 offset = GetAndCreateRandomOffset();
 
-                        Enemy newEnemy = CreateEnemy(enemy.EnemyPrefab,
-                                                     _wayPoints[0].position + offset,
-                                                     Quaternion.identity);
+                        Enemy newEnemy = CreateEnemy(enemy.EnemyPrefab, spawnPosition + offset, 
+                            Quaternion.identity);
 
-                        newEnemy.Init(_wayPoints);
+                        newEnemy.Init(_path);
                         newEnemy.OnDead += OnDeadEnemy;
-                        OnChangeWayPoints += newEnemy.ChangeWayPoints;
+                        OnChangePath += newEnemy.ChangePath;
 
                         _createdEnemys.Add(newEnemy);
                     }
@@ -93,6 +92,7 @@ namespace BoxDefence
         {
             return _createdEnemys.Count;
         }
+
         #endregion
 
         #region Private Methods
@@ -100,7 +100,7 @@ namespace BoxDefence
         private void OnDeadEnemy(Enemy enemy)
         {
             enemy.OnDead -= OnDeadEnemy;
-            OnChangeWayPoints -= enemy.ChangeWayPoints;
+            OnChangePath -= enemy.ChangePath;
 
             _createdEnemys.Remove(enemy);
 

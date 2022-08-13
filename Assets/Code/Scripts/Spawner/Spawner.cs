@@ -1,8 +1,9 @@
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+using BoxDefence.PathFinderAI;
 
 namespace BoxDefence
 {
@@ -10,12 +11,15 @@ namespace BoxDefence
     {
         #region Fields
 
-        [SerializeField] private List<Transform> _wayPoints;
+        [SerializeField] private List<Vector2> _path;
+        [SerializeField] private Transform _endPosition;
+        [SerializeField] private Tilemap _tilemap;
         [Space]
         [SerializeField] private List<Waves> _waves;
         [Header("Ñharacteristics")]
         [SerializeField] private float _timeBetweenWaves;
-        
+
+        private PathFinder _pathFinder;
         private EnemyCounter _enemyCounter;
 
         #endregion
@@ -35,9 +39,21 @@ namespace BoxDefence
                 allEnemy += wave.GetAllegedCountEnemys();
 
             _enemyCounter = new EnemyCounter(_waves.Count, allEnemy);
+            _pathFinder = new PathFinder(_tilemap);
+            _path = _pathFinder.GetPath(transform.position, _endPosition.position);
 
             CreateWaves();
         }
+
+        #if UNITY_EDITOR
+
+        private void OnDrawGizmos()
+        {
+            if(Application.isPlaying == true)
+                _pathFinder.OnDrawPath();
+        }
+
+        #endif
 
         #endregion
 
@@ -47,8 +63,8 @@ namespace BoxDefence
         {
             foreach(Waves wave in _waves)
             {
-                wave.Init(_wayPoints);
-                wave.CreateEnemy();
+                wave.Init(_path);
+                wave.CreateEnemy(transform.position);
                 wave.AllEnemyKills += _enemyCounter.CountWaves;
 
                 OnCreateWaves?.Invoke();

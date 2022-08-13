@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+using BoxDefence.Tilemaps;
 
 using Random = UnityEngine.Random;
 
@@ -15,12 +17,12 @@ namespace BoxDefence.AI
         [Space]
         [SerializeField] private Vector3 _offset = new Vector3(0.5f, 0.5f, 0);
 
-        private List<Transform> _wayPoints;
+        private List<Vector2> _path;
 
         private Vector3 _currentOffset = Vector3.zero;
         private Vector3 _pointPosition;
 
-        private int _indexPoint = -1;
+        private int _indexPoint = 0;
 
         public event Action<Enemy> OnDead;
 
@@ -30,11 +32,11 @@ namespace BoxDefence.AI
         {
             if (transform.position == _pointPosition)
             {
-                if (IsLastPoint() == false)
-                    ChangePoint();
-                else
+                if (IsLastPoint() == true)
                     Destroy();
-            }  
+                else
+                    SetNextPoint();
+            }
 
             WalkToPoint();
         }
@@ -52,17 +54,16 @@ namespace BoxDefence.AI
                 Destroy(gameObject);
             }
         }
-        public void Init(List<Transform> wayPoints)
+        public void Init(List<Vector2> path)
         {
-            _currentOffset = GetAndCreateRandomOffset();
+            ChangePath(path);
 
-            ChangeWayPoints(wayPoints);
-            ChangePoint();
-            WalkToPoint();
+            _currentOffset = GetAndCreateRandomOffset();
+            _pointPosition = (Vector3)_path[_indexPoint] + _currentOffset;
         }
-        public void ChangeWayPoints(List<Transform> wayPoints)
+        public void ChangePath(List<Vector2> path)
         {
-            _wayPoints = wayPoints;
+            _path = path;
         }
 
         private void WalkToPoint()
@@ -71,11 +72,17 @@ namespace BoxDefence.AI
 
             transform.position = Vector3.MoveTowards(transform.position, _pointPosition, step);
         }
-        private void ChangePoint()
+        private void SetNextPoint()
         {
             _indexPoint++;
-
-            _pointPosition = _wayPoints[_indexPoint].position + _currentOffset;
+            _pointPosition = (Vector3)_path[_indexPoint] + _currentOffset;
+        }
+        private bool IsLastPoint()
+        {
+            if (_indexPoint == _path.Count - 1)
+                return true;
+            else
+                return false;
         }
         private void Destroy()
         {
@@ -83,13 +90,6 @@ namespace BoxDefence.AI
             OnLastPoint?.Invoke();
 
             Destroy(gameObject);
-        }
-        private bool IsLastPoint()
-        {
-            if (_indexPoint == _wayPoints.Count - 1)
-                return true;
-            else
-                return false;
         }
         private Vector3 GetAndCreateRandomOffset()
         {
