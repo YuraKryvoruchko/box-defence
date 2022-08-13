@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
-using BoxDefence.Tilemaps;
 
 using Random = UnityEngine.Random;
 
