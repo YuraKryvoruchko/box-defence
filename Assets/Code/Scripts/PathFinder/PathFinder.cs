@@ -19,7 +19,7 @@ namespace BoxDefence.PathFinderAI
 
         #endregion
 
-        #region Constructor
+        #region Constructors
 
         public PathFinder(Tilemap tilemap)
         {

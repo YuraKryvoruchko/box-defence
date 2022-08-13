@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c04b0d729a297144f961f008230ff9cf, type: 3}
-  m_Name: NodeTile
+  m_Name: StandartWayTile
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: -4998554792733055426, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
