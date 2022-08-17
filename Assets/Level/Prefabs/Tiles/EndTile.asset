@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c04b0d729a297144f961f008230ff9cf, type: 3}
-  m_Name: EndPoint
+  m_Name: EndTile
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 6854195560181874411, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
-  m_Color: {r: 1, g: 0.9696857, b: 0, a: 0.6392157}
+  m_Sprite: {fileID: -1576326215038801376, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
     e01: 0
@@ -31,7 +31,7 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 1
-  m_InstancedGameObject: {fileID: 0}
+  m_InstancedGameObject: {fileID: 4698728088046592967, guid: 732137699ac34824b82624d59555247a, type: 3}
   m_Flags: 1
   m_ColliderType: 1
   <Patency>k__BackingField: 0
