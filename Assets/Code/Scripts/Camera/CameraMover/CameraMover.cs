@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 using CallbackContext = UnityEngine.InputSystem.InputAction.CallbackContext;
@@ -10,6 +11,10 @@ namespace BoxDefence.CameraSystem
         #region Fields
 
         [SerializeField] private float _speedChengTransform;
+        [Space]
+        [SerializeField] private CameraZoomer _cameraZoomer;
+
+        private bool _cameraZooming = false;
 
         private Camera _camera;
 
@@ -22,6 +27,7 @@ namespace BoxDefence.CameraSystem
         private void Awake()
         {
             _inputActions = new InputSystem();
+            _inputActions.Touch.TouchDelta.performed += (exp) => CameraDrag(exp);
 
             _camera = GetComponent<Camera>();
         }
@@ -29,12 +35,30 @@ namespace BoxDefence.CameraSystem
         private void OnEnable()
         {
             _inputActions.Enable();
-            _inputActions.Touch.TouchDelta.performed += (exp) => CameraDrag(exp);
+
+            if (_cameraZoomer != null)
+            {
+                _cameraZoomer.OnStartZoomCamera += OnStartZoomCamera;
+                _cameraZoomer.OnEndZoomCamera += OnEndZoomCamera;
+            }
+            else
+            {
+                Debug.LogWarning("CameraZoomer is null!");
+            }
         }
         private void OnDisable()
         {
             _inputActions.Disable();
-            _inputActions.Touch.TouchDelta.performed -= (exp) => CameraDrag(exp);
+
+            if (_cameraZoomer != null)
+            {
+                _cameraZoomer.OnStartZoomCamera -= OnStartZoomCamera;
+                _cameraZoomer.OnEndZoomCamera -= OnEndZoomCamera;
+            }
+            else
+            {
+                Debug.LogWarning("CameraZoomer is null!");
+            }
         }
 
         #endregion
@@ -43,10 +67,21 @@ namespace BoxDefence.CameraSystem
 
         private void CameraDrag(CallbackContext callbackContext)
         {
+            if (_cameraZooming == true)
+                return;
+
             Vector2 deltaPosition = callbackContext.ReadValue<Vector2>();
 
             _camera.transform.position -= new Vector3(deltaPosition.x * _speedChengTransform,
                                                       deltaPosition.y * _speedChengTransform);
+        }
+        private void OnStartZoomCamera()
+        {
+            _cameraZooming = true;
+        }
+        private void OnEndZoomCamera()
+        {
+            _cameraZooming = false;
         }
 
         #endregion
