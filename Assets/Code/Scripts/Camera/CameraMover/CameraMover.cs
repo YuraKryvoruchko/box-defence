@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using UnityEngine;
 
 using CallbackContext = UnityEngine.InputSystem.InputAction.CallbackContext;
@@ -19,6 +19,12 @@ namespace BoxDefence.CameraSystem
         private Camera _camera;
 
         private InputSystem _inputActions;
+
+        #endregion
+
+        #region Actions
+
+        public event Action OnMoveCamera;
 
         #endregion
 
@@ -74,6 +80,8 @@ namespace BoxDefence.CameraSystem
 
             _camera.transform.position -= new Vector3(deltaPosition.x * _speedChengTransform,
                                                       deltaPosition.y * _speedChengTransform);
+
+            OnMoveCamera?.Invoke();
         }
         private void OnStartZoomCamera()
         {

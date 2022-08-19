@@ -46,17 +46,16 @@ namespace BoxDefence
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, RAY_DISTANCE);
             Physics2D.queriesHitTriggers = true;
 
-            if (hit.collider != null)
-            {
-                if (hit.collider.TryGetComponent(out Cell cell) == true)
-                    ClickingOnCell?.Invoke(cell);
-                else
-                    Debug.LogWarning("Hit don't is cell");
-            }
-            else
+            if (hit.collider == null)
             {
                 Debug.LogWarning("Tap in emptiness");
+                return;
             }
+
+            if (hit.collider.TryGetComponent(out Cell cell) == true)
+                ClickingOnCell?.Invoke(cell);
+            else
+                Debug.LogWarning("Hit don't is cell");
         }
 
         #endregion
