@@ -1,27 +1,39 @@
 ﻿using BoxDefence.Towers;
+using BoxDefence.WalletSystem;
 
 namespace BoxDefence
 {
     public class TowerCreator
     {
-        private CellFinder _cellFinder;
-        private Cell _cell;
+        #region Fields
 
-        public TowerCreator(CellFinder cellFinder)
+        private TowerBuyer _towerBuyer;
+
+        #endregion
+
+        #region Constructor
+
+        public TowerCreator(TowerBuyer towerBuyer)
         {
-            _cellFinder = cellFinder;
-            _cellFinder.ClickingOnCell += SetCell;
-            ReturedTower.OnPickTower += CreateTower;
+            _towerBuyer = towerBuyer;
         }
 
-        private void SetCell(Cell cell)
+        #endregion
+
+        #region Public Methods
+
+        public void CreateTower(Cell cell, Tower tower)
         {
-            _cell = cell;
+            if (cell.IsTowerSet() == true)
+                return;
+            if (_towerBuyer.CanBuyTower(tower.Price) == false)
+                return;
+
+            cell.SetTower(tower);
+
+            _towerBuyer.BuyTower(cell.Tower);
         }
-        private void CreateTower(Tower tower)
-        {
-            if (_cell.IsTowerSet() == false)
-                _cell.SetTower(tower);
-        }
+
+        #endregion
     }
 }

@@ -13,6 +13,8 @@ namespace BoxDefence.UI
 
         private TowerBuyer _towerBuyer;
 
+        private TowerCreator _towerCreator;
+
         #endregion
 
         #region Unity Methods
@@ -22,6 +24,7 @@ namespace BoxDefence.UI
             base.Awake();
 
             _towerBuyer = new TowerBuyer(_wallet);
+            _towerCreator = new TowerCreator(_towerBuyer);
         }
 
         #endregion
@@ -30,15 +33,7 @@ namespace BoxDefence.UI
 
         public void CreateTower(Tower towerPrefab)
         {
-            if (CurrentCell.IsTowerSet() == true)
-                return;
-
-            if (_towerBuyer.CanBuyTower(towerPrefab.Price) == false)
-                return;
-
-            CurrentCell.SetTower(towerPrefab);
-
-            _towerBuyer.BuyTower(CurrentCell.Tower);
+            _towerCreator.CreateTower(CurrentCell, towerPrefab);
 
             DisableMenu();
         }
