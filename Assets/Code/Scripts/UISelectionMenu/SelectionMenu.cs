@@ -21,7 +21,7 @@ namespace BoxDefence.UI
 
         #endregion
 
-        #region Action
+        #region Actions
 
         public event Action OnEnableMenu;
         public event Action OnDisableMenu;
