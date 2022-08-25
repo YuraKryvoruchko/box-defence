@@ -34,6 +34,10 @@ namespace BoxDefence.Towers
 
             OnSet?.Invoke(this);
         }
+        public void Improve()
+        {
+
+        }
         public void DeleteTower()
         {
             Destroy(gameObject);
