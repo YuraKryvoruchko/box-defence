@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 namespace BoxDefence.Towers
 {
-    public class TowerCollisionHandling
+    public class TowerCollisionHandling : ITowerCollisionHandling
     {
         private ILogicTowerAdapter _logicTowerAdapter;
 

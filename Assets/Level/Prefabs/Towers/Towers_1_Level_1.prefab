@@ -127,14 +127,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0682bf3e13b1780408c5b0013182872b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _poolType: 1
   _price: 10
   _priceReturn: 5
   _enemysInShootZone: []
   _shootRate: 0.75
   _damage: 25
+  _colliderRadius: 3
   _upperTower: {fileID: 9059774762430507334}
   _bulletPrefab: {fileID: 6448705451477896428, guid: a7459052036d6de40aaf8a886c3bfa3a, type: 3}
   _spawnBulletPoint: {fileID: 6008956048949863039}
+  _shootGunTowerLevels:
+  - <Index>k__BackingField: 0
+    <PriceImprovement>k__BackingField: 0
+    <Damage>k__BackingField: 0
+    <ShootRate>k__BackingField: 0
+    <ColliderRadius>k__BackingField: 3
+    <TowerFoundation>k__BackingField: {fileID: 0}
+    <UpperTower>k__BackingField: {fileID: 0}
+  - <Index>k__BackingField: 1
+    <PriceImprovement>k__BackingField: 4
+    <Damage>k__BackingField: 35
+    <ShootRate>k__BackingField: 0.25
+    <ColliderRadius>k__BackingField: 3.5
+    <TowerFoundation>k__BackingField: {fileID: 8893887231109350728, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
+    <UpperTower>k__BackingField: {fileID: -1825685050048459010, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
+  - <Index>k__BackingField: 2
+    <PriceImprovement>k__BackingField: 4
+    <Damage>k__BackingField: 50
+    <ShootRate>k__BackingField: 0.1
+    <ColliderRadius>k__BackingField: 4
+    <TowerFoundation>k__BackingField: {fileID: -8738565838752142462, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
+    <UpperTower>k__BackingField: {fileID: 9055207363368298111, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
 --- !u!58 &1584915550
 CircleCollider2D:
   m_ObjectHideFlags: 0

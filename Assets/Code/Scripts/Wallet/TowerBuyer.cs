@@ -23,7 +23,7 @@ namespace BoxDefence.WalletSystem
 
         #region Public Methods
 
-        public bool CanBuyTower(int price)
+        public bool CanBuy(int price)
         {
             bool canBuy = _wallet.CanGetMoney(price);
 
@@ -34,8 +34,7 @@ namespace BoxDefence.WalletSystem
 
             return false;
         }
-
-        public void BuyTower(ITowerPriceList towerPriceList)
+        public void BuyTower(ITowerPricelist towerPriceList)
         {
             if (_wallet.CanGetMoney(towerPriceList.Price) == true)
             {
@@ -49,12 +48,19 @@ namespace BoxDefence.WalletSystem
                 throw new Exception();
             }
         }
+        public void BuyImprovement(ITowerImprovementPricelist towerImprovement)
+        {
+            if (_wallet.CanGetMoney(towerImprovement.PriceImprovement) == true)
+                _wallet.GetMoney(towerImprovement.PriceImprovement);
+            else
+                throw new Exception();
+        }
 
         #endregion
 
         #region Private Methods
 
-        private void ReturnMoney(ITowerPriceList towerPriceList)
+        private void ReturnMoney(ITowerPricelist towerPriceList)
         {
             if (_wallet.CanAddMoney(towerPriceList.PriceReturn) == true)
             {

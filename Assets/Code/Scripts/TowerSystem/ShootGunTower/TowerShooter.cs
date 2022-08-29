@@ -1,13 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 using BoxDefence.AI;
 using BoxDefence.Pooling;
 
 namespace BoxDefence.Towers
 {
-    public class TowerShooter
+    public class TowerShooter : ICanShooting
     {
+        #region Fields
+
         private float _damage;
         private float _shootRate;
 
@@ -15,9 +15,13 @@ namespace BoxDefence.Towers
 
         private Transform _bulletSpawnPoint;
 
-        private bool _canShoot = true;
-
         private ObjectPooler _objectPooler;
+
+        private ShootingBlocator _shootingBlocator;
+
+        #endregion
+
+        #region Constructor
 
         public TowerShooter(IShooterTowerAdapter shooterTowerAdaper)
         {
@@ -27,36 +31,31 @@ namespace BoxDefence.Towers
             _bulletSpawnPoint = shooterTowerAdaper.SpawnPoint;
 
             _objectPooler = ObjectPooler.Instance;
+            _shootingBlocator = new ShootingBlocator();
         }
 
-        public bool CanShoot()
-        {
-            return _canShoot;
-        }
+        #endregion
 
-        public async void Shoot(Enemy enemy)
+        #region Fields
+
+        public void Shoot(Enemy enemy)
         {
-            if (_canShoot == true)
+            if (CanShoot() == true)
             {
                 Bullet bullet = _objectPooler.GetObject(_bulletPrefab,
-                                                              _bulletSpawnPoint.position, 
-                                                              Quaternion.identity);
+                                                        _bulletSpawnPoint.position, 
+                                                        Quaternion.identity);
 
                 bullet.OnStart(_damage, enemy);
 
-                _canShoot = false;
-
-                await TimerBetweenShoots();
+                _shootingBlocator.BlockShootingOn(_shootRate);
             }
         }
-        private async Task TimerBetweenShoots
-            ()
+        public bool CanShoot()
         {
-            TimeSpan shootRateInMilliseconds = TimeSpan.FromSeconds(_shootRate);
-
-            await Task.Delay((int)shootRateInMilliseconds.TotalMilliseconds);
-
-            _canShoot = true;
+            return _shootingBlocator.CanShoot();
         }
+
+        #endregion
     }
 }

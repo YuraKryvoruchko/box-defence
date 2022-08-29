@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tower: {fileID: 0}
+  _tower2:
+    _underlyingValue: {fileID: 0}
 --- !u!61 &2504141702113788283
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -22,16 +22,16 @@ namespace BoxDefence
 
         #region Public Methods
 
-        public void CreateTower(Cell cell, Tower tower)
+        public void CreateTower(Cell cell, IBaseTower tower)
         {
             if (cell.IsTowerSet() == true)
                 return;
-            if (_towerBuyer.CanBuyTower(tower.Price) == false)
+            if (_towerBuyer.CanBuy(tower.Price) == false)
                 return;
 
-            cell.SetTower(tower);
+            cell.SetBaseTower(tower);
 
-            _towerBuyer.BuyTower(cell.Tower);
+            _towerBuyer.BuyTower(cell.BaseTower);
         }
 
         #endregion

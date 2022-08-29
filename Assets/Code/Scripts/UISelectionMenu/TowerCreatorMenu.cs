@@ -31,9 +31,11 @@ namespace BoxDefence.UI
 
         #region Public Methods
 
-        public void CreateTower(Tower towerPrefab)
+        public void CreateTower(TowerRetured towerRetured)
         {
-            _towerCreator.CreateTower(CurrentCell, towerPrefab);
+            IBaseTower baseTowerPrefab = towerRetured.GetBaseTowerPrefab();
+
+            _towerCreator.CreateTower(CurrentCell, baseTowerPrefab);
 
             DisableMenu();
         }

@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using BoxDefence.Towers;
+using BoxDefence.Pooling;
+using AYellowpaper;
 
 namespace BoxDefence
 {
@@ -8,13 +10,25 @@ namespace BoxDefence
     {
         #region Fields
 
-        [SerializeField] private Tower _tower;
+        [SerializeField] private InterfaceReference<IBaseTower, MonoBehaviour> _baseTower;
+
+        private ObjectPooler _objectPooler;
 
         #endregion
 
         #region Properties
 
-        public Tower Tower { get => _tower; }
+        public IBaseTower BaseTower { get => _baseTower.Value; 
+                                      private set => _baseTower.Value = value; }
+
+        #endregion
+
+        #region Unity Methods
+
+        private void Start()
+        {
+            _objectPooler = ObjectPooler.Instance;
+        }
 
         #endregion
 
@@ -22,7 +36,7 @@ namespace BoxDefence
 
         public bool IsTowerSet()
         {
-            if (_tower != null)
+            if (_baseTower.Value != null)
             {
                 Debug.LogWarning("Cell is empty");
 
@@ -34,26 +48,28 @@ namespace BoxDefence
             }
         }
 
-        public void SetTower(Tower tower)
+        public void SetBaseTower(IBaseTower tower)
         {
             try
             {
                 if (IsTowerSet() == true)
                     throw new Exception("You are trying to install a tower, but the tower is installed!");
 
-                Tower createTower = Instantiate(tower, transform, true);
+                IBaseTower createTower = _objectPooler.GetObject(tower,
+                                                                 transform.position,
+                                                                 transform.rotation);
 
-                _tower = createTower;
-                _tower.SetTower(transform.position + Vector3.back * 2);
+                BaseTower = createTower;
+                BaseTower.SetTower(transform.position + Vector3.back * 2);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 Debug.LogException(exception);
             }
         }
         public void DeleteTower()
         {
-            _tower.DeleteTower();
+            BaseTower.DeleteTower();
         }
 
         #endregion

@@ -15,5 +15,7 @@ MonoBehaviour:
   _enumName: PoolType
   _enumEntries:
   - Bullet
+  - ShootGunTower
+  - ElectroTower
   _filePathAndName: Assets/Code/Scripts/Enums/
   _show: 1
