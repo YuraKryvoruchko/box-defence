@@ -47,7 +47,7 @@ namespace BoxDefence.UI
         {
             if (_currentCell == cell)
             {
-                _currentMenu.DisableMenu();
+                _currentMenu.HideMenu();
                 return;
             }
 
@@ -60,7 +60,7 @@ namespace BoxDefence.UI
         }
         private void OnDisableMenu()
         {
-            _currentMenu.OnDisableMenu -= OnDisableMenu;
+            _currentMenu.OnHideMenu -= OnDisableMenu;
             _currentMenu = null;
 
             _currentCell = null;
@@ -76,15 +76,15 @@ namespace BoxDefence.UI
         private void EnableMenu(SelectionMenu enabledMenu, SelectionMenu disabledMenu)
         {
             if (_currentMenu != null)
-                _currentMenu.OnDisableMenu -= OnDisableMenu;
+                _currentMenu.OnHideMenu -= OnDisableMenu;
 
             if (disabledMenu.GetActivedStatusMenu() == true)
-                disabledMenu.DisableMenu();
+                disabledMenu.HideMenu();
 
             _currentMenu = enabledMenu;
-            _currentMenu.OnDisableMenu += OnDisableMenu;
-            _currentMenu.EnableMenu();
+            _currentMenu.OnHideMenu += OnDisableMenu;
             _currentMenu.MoveToCell(_currentCell);
+            _currentMenu.ShowMenu();
         }
 
         #endregion

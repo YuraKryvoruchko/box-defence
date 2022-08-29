@@ -24,11 +24,21 @@ namespace BoxDefence.UI
 
         #region Unity Methods
 
-        private void Awake()
+        protected void Awake()
         {
             base.Awake();
 
             _towerBuyer = new TowerBuyer(_wallet);
+        }
+        protected void OnEnable()
+        {
+            base.OnEnable();
+
+            OnShowMenu += () => UpdateImproveButtonSprite(CurrentCell.BaseTower);
+        }
+        protected void OnDisable()
+        {
+            OnShowMenu -= () => UpdateImproveButtonSprite(CurrentCell.BaseTower);
         }
 
         #endregion
@@ -41,14 +51,10 @@ namespace BoxDefence.UI
             {
                 if (CurrentCell.IsTowerSet() == false)
                     throw new Exception("The tower is not installed!");
+                if (CanBuyTower() == false)
+                    return;
 
                 ITowerImprover currentTower = CurrentCell.BaseTower;
-
-                int levelPrice = currentTower.GetNextLevelPrice();
-
-                if (_towerBuyer.CanBuy(levelPrice) == false)
-                    throw new Exception("Can not buy!");
-
                 currentTower.Improve();
 
                 _towerBuyer.BuyImprovement(currentTower.GetTowerImprovementPricelist());
@@ -69,7 +75,7 @@ namespace BoxDefence.UI
 
                 CurrentCell.DeleteTower();
 
-                DisableMenu();
+                HideMenu();
             }
             catch (Exception exception)
             {
@@ -81,6 +87,16 @@ namespace BoxDefence.UI
 
         #region Private Methods
 
+        private bool CanBuyTower()
+        {
+            ITowerImprover currentTower = CurrentCell.BaseTower;
+            int levelPrice = currentTower.GetNextLevelPrice();
+
+            if (_towerBuyer.CanBuy(levelPrice) == false)
+                return false;
+
+            return true;
+        }
         private void UpdateImproveButtonSprite(ITowerImprover tower)
         {
             if (tower.IsMaxLevel() == true)

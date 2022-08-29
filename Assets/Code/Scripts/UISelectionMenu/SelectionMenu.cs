@@ -11,6 +11,8 @@ namespace BoxDefence.UI
 
         [SerializeField] private Camera _camera;
         [SerializeField] private CameraMover _cameraMover;
+        [Space]
+        [SerializeField] private GameObject _menuContext;
 
         private RectTransform _rectTransform;
 
@@ -23,8 +25,8 @@ namespace BoxDefence.UI
 
         #region Actions
 
-        public event Action OnEnableMenu;
-        public event Action OnDisableMenu;
+        public event Action OnShowMenu;
+        public event Action OnHideMenu;
 
         #endregion
 
@@ -44,11 +46,11 @@ namespace BoxDefence.UI
         }
         protected void OnEnable()
         {
-            _cameraMover.OnMoveCamera += () => _menuMover.MoveSelectionMenu(_currentCellPosition.position);
+            SubscribeToCameraChanges();
         }
         protected void OnDisable()
         {
-            _cameraMover.OnMoveCamera -= () => _menuMover.MoveSelectionMenu(_currentCellPosition.position);
+            UnsubscribeFromCameraChanges();
         }
 
         #endregion
@@ -66,19 +68,44 @@ namespace BoxDefence.UI
         }
         public bool GetActivedStatusMenu()
         {
-            return gameObject.activeSelf;
+            return _menuContext.activeSelf;
         }
-        public void EnableMenu()
+        public void ShowMenu()
         {
-            gameObject.SetActive(true);
+            _menuContext.SetActive(true);
 
-            OnEnableMenu?.Invoke();
+            OnShowMenu?.Invoke();
         }
-        public void DisableMenu()
+        public void HideMenu()
         {
-            gameObject.SetActive(false);
+            _menuContext.SetActive(false);
 
-            OnDisableMenu?.Invoke(); ;
+            OnHideMenu?.Invoke(); ;
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void SubscribeToCameraChanges()
+        {
+            OnShowMenu += () => SubscribeOnMoveCamera();
+            OnHideMenu += () => UnsubscribeFromMoveCamera();
+        }
+        private void UnsubscribeFromCameraChanges()
+        {
+            OnShowMenu -= () => SubscribeOnMoveCamera();
+            OnHideMenu -= () => UnsubscribeFromMoveCamera();
+        }
+        private void SubscribeOnMoveCamera()
+        {
+            _cameraMover.OnMoveCamera += () => 
+            _menuMover.MoveSelectionMenu(_currentCellPosition.position);
+        }
+        private void UnsubscribeFromMoveCamera()
+        {
+            _cameraMover.OnMoveCamera -= () =>
+            _menuMover.MoveSelectionMenu(_currentCellPosition.position);
         }
 
         #endregion

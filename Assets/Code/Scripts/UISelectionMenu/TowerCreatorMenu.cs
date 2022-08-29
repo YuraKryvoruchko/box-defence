@@ -37,7 +37,7 @@ namespace BoxDefence.UI
 
             _towerCreator.CreateTower(CurrentCell, baseTowerPrefab);
 
-            DisableMenu();
+            HideMenu();
         }
 
         #endregion
