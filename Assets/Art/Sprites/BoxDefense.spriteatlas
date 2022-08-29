@@ -61,14 +61,12 @@ SpriteAtlas:
     - {fileID: -3277000485652082031, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
     - {fileID: -1576326215038801376, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
     - {fileID: 3594244459380735170, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
-    - {fileID: 2800000, guid: f304585d2a39dd047a107f12eede3a61, type: 3}
     totalSpriteSurfaceArea: 565590
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: 2027930145844100893, guid: f304585d2a39dd047a107f12eede3a61, type: 3}
   - {fileID: -226603004103698765, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
   - {fileID: 8961202016936256020, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
   - {fileID: 3594244459380735170, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
@@ -100,7 +98,6 @@ SpriteAtlas:
   - {fileID: 6854195560181874411, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
   - {fileID: 2059704449156028443, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
   m_PackedSpriteNamesToIndex:
-  - Tower1_0
   - Battery
   - Battery_Block
   - Towers_1_Upper_Tower
