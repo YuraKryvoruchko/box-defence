@@ -8,12 +8,7 @@ namespace BoxDefence.Towers
     {
         #region Fields
 
-        private float _damage;
-        private float _shootRate;
-
-        private Bullet _bulletPrefab;
-
-        private Transform _bulletSpawnPoint;
+        private IShooterTowerAdapter _shooterTowerAdaper;
 
         private ObjectPooler _objectPooler;
 
@@ -25,10 +20,7 @@ namespace BoxDefence.Towers
 
         public TowerShooter(IShooterTowerAdapter shooterTowerAdaper)
         {
-            _damage = shooterTowerAdaper.Damage;
-            _shootRate = shooterTowerAdaper.ShootRate;
-            _bulletPrefab = shooterTowerAdaper.BulletPrefab;
-            _bulletSpawnPoint = shooterTowerAdaper.SpawnPoint;
+            _shooterTowerAdaper = shooterTowerAdaper;
 
             _objectPooler = ObjectPooler.Instance;
             _shootingBlocator = new ShootingBlocator();
@@ -42,13 +34,13 @@ namespace BoxDefence.Towers
         {
             if (CanShoot() == true)
             {
-                Bullet bullet = _objectPooler.GetObject(_bulletPrefab,
-                                                        _bulletSpawnPoint.position, 
+                Bullet bullet = _objectPooler.GetObject(_shooterTowerAdaper.BulletPrefab,
+                                                        _shooterTowerAdaper.SpawnPoint.position, 
                                                         Quaternion.identity);
 
-                bullet.OnStart(_damage, enemy);
+                bullet.OnStart(_shooterTowerAdaper.Damage, enemy);
 
-                _shootingBlocator.BlockShootingOn(_shootRate);
+                _shootingBlocator.BlockShootingOn(_shooterTowerAdaper.ShootRate);
             }
         }
         public bool CanShoot()
