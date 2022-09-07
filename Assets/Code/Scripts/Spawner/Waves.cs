@@ -22,6 +22,7 @@ namespace BoxDefence
 
         public event Action<List<Vector2>> OnChangePath;
         public event Action AllEnemyKills;
+        public event Action OnCreateWave;
 
         #endregion
 
@@ -43,6 +44,7 @@ namespace BoxDefence
         {
             ChangePath(path);
             _createdEnemys = new List<Enemy>();
+            OnCreateWave?.Invoke();
         }
         public void ChangePath(List<Vector2> path)
         {

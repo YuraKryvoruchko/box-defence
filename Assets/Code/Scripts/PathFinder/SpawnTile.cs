@@ -7,10 +7,17 @@ namespace BoxDefence.Tilemaps
     [CreateAssetMenu(fileName = "SpawnTile", menuName = "Tile/SpawnTile", order = 5)]
     public class SpawnTile : NodeTile
     {
+        #region Actions
+
+        public event Action<Spawner> OnCreateSpanwer;
+
+        #endregion
+
         #region Unity Methods
 
         public override bool StartUp(Vector3Int position, ITilemap tilemap, GameObject go)
         {
+            Debug.Log("SpawnTile time: " + Time.realtimeSinceStartup);
             SetTilemapForSpawner(tilemap, go);
 
             return base.StartUp(position, tilemap, go);
@@ -30,6 +37,8 @@ namespace BoxDefence.Tilemaps
                     spawner.SetTilemap(currentTilemap);
                 else
                     throw new Exception("GameObject dont have Spawner.cs");
+
+                OnCreateSpanwer?.Invoke(spawner);
             }
             catch (Exception exception)
             {

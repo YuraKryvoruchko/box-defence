@@ -6,15 +6,6 @@ namespace BoxDefence.UI
     {
         [SerializeField] private GameObject _winPanel;
 
-        private void OnEnable()
-        {
-            EnemyCounter.AllWavesDestroyed += OnWin;
-        }
-        private void OnDisable()
-        {
-            EnemyCounter.AllWavesDestroyed -= OnWin;
-        }
-
         public void OnWin()
         {
             if (_winPanel != null)
