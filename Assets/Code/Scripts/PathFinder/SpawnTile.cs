@@ -9,7 +9,7 @@ namespace BoxDefence.Tilemaps
     {
         #region Actions
 
-        public event Action<Spawner> OnCreateSpanwer;
+        public event Action<IEnemyControlPointing> OnCreateSpanwer;
 
         #endregion
 
@@ -33,12 +33,12 @@ namespace BoxDefence.Tilemaps
             {
                 Tilemap currentTilemap = GetTilemap(tilemap);
 
-                if (go.TryGetComponent(out Spawner spawner))
-                    spawner.SetTilemap(currentTilemap);
+                if (go.TryGetComponent(out EnemyControlPoint enemyControlPoint))
+                    enemyControlPoint.SetTilemap(currentTilemap);
                 else
                     throw new Exception("GameObject dont have Spawner.cs");
 
-                OnCreateSpanwer?.Invoke(spawner);
+                OnCreateSpanwer?.Invoke(enemyControlPoint);
             }
             catch (Exception exception)
             {

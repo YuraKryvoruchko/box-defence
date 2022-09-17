@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -10,7 +9,8 @@ using Random = UnityEngine.Random;
 
 namespace BoxDefence
 {
-    public class Spawner : MonoBehaviour, ISetingEnumerator, ISpawner
+    [Serializable]
+    public class Spawner : IEnemyControlPointing
     {
         #region Fields
 
@@ -30,32 +30,41 @@ namespace BoxDefence
 
         #region Actions
 
-        public static event Action OnCreateWaves;
+        public event Action OnAddPassedEnemy;
+        public event Action OnRemovePassedEnemy;
+        public event Action OnAddDeadEnemy;
+        public event Action OnRemoveDeadEnemy;
+        public event Action OnAddEnemyWaves;
+        public event Action OnRemoveEnemyWaves;
+
+        #endregion
+
+        #region Counstructor
+
+        public Spawner(Tilemap tilemap, List<Waves> waves)
+        {
+            SetTilemap(tilemap);
+
+            _waves = waves;
+
+            _enemyCounter = new WavesCounter(_waves.Count);
+            _timer = new Timer(_timeBetweenWaves);
+        }
 
         #endregion
 
         #region Unity Methods
 
-        private void Awake()
+        public void Init()
         {
             _enemyCounter = new WavesCounter(_waves.Count);
             _timer = new Timer(_timeBetweenWaves);
-        }
-        private void Start()
-        {
-            Transform target = GetTargetPoint();
-            SetTarget(target);
-
-            _pathFinder = new PathFinder(_tilemap);
-            _path = _pathFinder.GetPath(transform.position, _target.position);
-
-            CreateWaves();
         }
 
         #region OnDrawGizmos
         #if UNITY_EDITOR
 
-        private void OnDrawGizmos()
+        public void OnDrawGizmos()
         {
             if(Application.isPlaying == true)
                 _pathFinder.OnDrawPath();
@@ -76,31 +85,68 @@ namespace BoxDefence
         {
             _target = target;
         }
-        public WavesCounter GetWavesCounter()
+
+        #endregion
+
+        #region Public Methods
+
+        public async void CreateWaves(Vector3 spawnPosition)
         {
-            return _enemyCounter;
+            CreatePath(spawnPosition);
+
+            foreach (Waves wave in _waves)
+            {
+                wave.OnCreateWave += _enemyCounter.AddWavesToCount;
+                wave.Init(_path);
+                wave.CreateEnemy(spawnPosition);
+
+                Debug.Log(spawnPosition + " wave");
+                OnAddEnemyWaves?.Invoke();
+
+                await _timer.StartTimer();
+            }
+        }
+
+        public int GetDeadEnemyCount()
+        {
+            throw new NotImplementedException();
+        }
+        public int GetEnemyWavesCount()
+        {
+            return _enemyCounter.GetCurrentWavesCount();
+        }
+        public int GetMaxDeadEnemyCount()
+        {
+            throw new NotImplementedException();
+        }
+        public int GetMaxEnemyWavesCount()
+        {
+            return _enemyCounter.GetMaxWavesCount();
+        }
+        public int GetMaxPassedEnemyCount()
+        {
+            throw new NotImplementedException();
+        }
+        public int GetPassedEnemyCount()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
 
         #region Private Methods
 
-        private async void CreateWaves()
+        private void CreatePath(Vector3 spawnPosition)
         {
-            foreach(Waves wave in _waves)
-            {
-                wave.OnCreateWave += _enemyCounter.AddWavesToCount;
-                wave.Init(_path);
-                wave.CreateEnemy(transform.position);
+            Transform target = GetTargetPoint();
+            SetTarget(target);
 
-                OnCreateWaves?.Invoke();
-
-                await _timer.StartTimer();
-            }
+            _pathFinder = new PathFinder(_tilemap);
+            _path = _pathFinder.GetPath(spawnPosition, _target.position);
         }
         private Transform GetTargetPoint()
         {
-            WayTarget[] wayTargets = FindObjectsOfType<WayTarget>();
+            WayTarget[] wayTargets = MonoBehaviour.FindObjectsOfType<WayTarget>();
 
             List<Transform> notFreeTargets = new List<Transform>();
             List<Transform> freeTargets = new List<Transform>();
@@ -139,13 +185,5 @@ namespace BoxDefence
         }
 
         #endregion
-    }
-    public interface ISetingEnumerator
-    {
-        public WavesCounter GetWavesCounter();
-    }
-    public interface ISpawner
-    {
-        WavesCounter GetWavesCounter();
     }
 }
