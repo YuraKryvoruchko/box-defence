@@ -30,7 +30,7 @@ namespace BoxDefence
 
         private void Awake()
         {
-            _spawner.Init();
+            _spawner.Init(transform.position);
         }
         private void OnEnable()
         {
@@ -52,7 +52,7 @@ namespace BoxDefence
         }
         private void Start()
         {
-            _spawner.CreateWaves(transform.position);
+            _spawner.CreateWaves();
         }
 
         #endregion

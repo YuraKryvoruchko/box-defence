@@ -5,8 +5,6 @@ using UnityEngine.Tilemaps;
 using BoxDefence.PathFinderAI;
 using BoxDefence.TimerSystem;
 
-using Random = UnityEngine.Random;
-
 namespace BoxDefence
 {
     [Serializable]
@@ -15,14 +13,15 @@ namespace BoxDefence
         #region Fields
 
         [SerializeField] private List<Vector2> _path;
-        [SerializeField] private Transform _target;
         [SerializeField] private Tilemap _tilemap;
         [Space]
         [SerializeField] private List<Waves> _waves;
         [Header("Ñharacteristics")]
         [SerializeField] private float _timeBetweenWaves;
 
-        private PathFinder _pathFinder;
+        private Vector3 _spawnPoint;
+
+        private TravelPathAgent _travelPathAgent;
         private WavesCounter _enemyCounter;
         private Timer _timer;
 
@@ -50,28 +49,18 @@ namespace BoxDefence
             _enemyCounter = new WavesCounter(_waves.Count);
             _timer = new Timer(_timeBetweenWaves);
         }
+        public void Init(Vector3 spawnPoint)
+        {
+            _spawnPoint = spawnPoint;
+            _travelPathAgent = new TravelPathAgent(_tilemap, _spawnPoint);
+            _enemyCounter = new WavesCounter(_waves.Count);
+            _timer = new Timer(_timeBetweenWaves);
+        }
 
         #endregion
 
         #region Unity Methods
 
-        public void Init()
-        {
-            _enemyCounter = new WavesCounter(_waves.Count);
-            _timer = new Timer(_timeBetweenWaves);
-        }
-
-        #region OnDrawGizmos
-        #if UNITY_EDITOR
-
-        public void OnDrawGizmos()
-        {
-            if(Application.isPlaying == true)
-                _pathFinder.OnDrawPath();
-        }
-
-        #endif
-        #endregion
 
         #endregion
 
@@ -81,26 +70,26 @@ namespace BoxDefence
         {
             _tilemap = tilemap;
         }
-        public void SetTarget(Transform target)
+        public void SetSpawnPoint(Vector3 spawnPoint)
         {
-            _target = target;
+            _spawnPoint = spawnPoint;
         }
 
         #endregion
 
         #region Public Methods
 
-        public async void CreateWaves(Vector3 spawnPosition)
+        public async void CreateWaves()
         {
-            CreatePath(spawnPosition);
+            CreatePath();
 
             foreach (Waves wave in _waves)
             {
                 wave.OnCreateWave += _enemyCounter.AddWavesToCount;
                 wave.Init(_path);
-                wave.CreateEnemy(spawnPosition);
+                wave.CreateEnemy(_spawnPoint);
 
-                Debug.Log(spawnPosition + " wave");
+                Debug.Log(_spawnPoint + " wave");
                 OnAddEnemyWaves?.Invoke();
 
                 await _timer.StartTimer();
@@ -136,52 +125,9 @@ namespace BoxDefence
 
         #region Private Methods
 
-        private void CreatePath(Vector3 spawnPosition)
+        private void CreatePath()
         {
-            Transform target = GetTargetPoint();
-            SetTarget(target);
-
-            _pathFinder = new PathFinder(_tilemap);
-            _path = _pathFinder.GetPath(spawnPosition, _target.position);
-        }
-        private Transform GetTargetPoint()
-        {
-            WayTarget[] wayTargets = MonoBehaviour.FindObjectsOfType<WayTarget>();
-
-            List<Transform> notFreeTargets = new List<Transform>();
-            List<Transform> freeTargets = new List<Transform>();
-            foreach (WayTarget wayTarget in wayTargets)
-            {
-                if (wayTarget.IsFree == true)
-                    freeTargets.Add(wayTarget.GetTransform());
-                else
-                    notFreeTargets.Add(wayTarget.GetTransform());
-            }
-
-            if(freeTargets.Count > 0)
-                return GetRandomTargetTransform(freeTargets);
-
-            return GetRandomTargetTransform(notFreeTargets);
-        }
-        private Transform GetRandomTargetTransform(List<Transform> targets)
-        {
-            try
-            {
-                if (targets.Count == 0)
-                    throw new Exception("List count is zero!");
-
-                int index = Random.Range(0, targets.Count - 1);
-
-                Transform target = targets[index];
-
-                return target;
-            }
-            catch(Exception exception)
-            {
-                Debug.LogException(exception);
-
-                return default;
-            }
+            _path = _travelPathAgent.GetNewPath();
         }
 
         #endregion
