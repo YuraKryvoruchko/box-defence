@@ -21,37 +21,14 @@ namespace BoxDefence
         public event Action OnRemovePassedEnemy;
         public event Action OnAddDeadEnemy;
         public event Action OnRemoveDeadEnemy;
-        public event Action OnAddEnemyWaves;
-        public event Action OnRemoveEnemyWaves;
 
         #endregion
 
         #region Unity Methods
 
-        private void Awake()
-        {
-            _spawner.Init(transform.position);
-        }
-        private void OnEnable()
-        {
-            _spawner.OnAddDeadEnemy += () => OnAddDeadEnemy?.Invoke();
-            _spawner.OnAddEnemyWaves += () => OnAddEnemyWaves?.Invoke();
-            _spawner.OnAddPassedEnemy += () => OnAddPassedEnemy?.Invoke();
-            _spawner.OnRemoveDeadEnemy += () => OnRemoveDeadEnemy?.Invoke();
-            _spawner.OnRemoveEnemyWaves += () => OnRemoveEnemyWaves?.Invoke();
-            _spawner.OnRemovePassedEnemy += () => OnRemovePassedEnemy?.Invoke();
-        }
-        private void OnDisable()
-        {
-            _spawner.OnAddDeadEnemy -= () => OnAddDeadEnemy?.Invoke();
-            _spawner.OnAddEnemyWaves -= () => OnAddEnemyWaves?.Invoke();
-            _spawner.OnAddPassedEnemy -= () => OnAddPassedEnemy?.Invoke();
-            _spawner.OnRemoveDeadEnemy -= () => OnRemoveDeadEnemy?.Invoke();
-            _spawner.OnRemoveEnemyWaves -= () => OnRemoveEnemyWaves?.Invoke();
-            _spawner.OnRemovePassedEnemy -= () => OnRemovePassedEnemy?.Invoke();
-        }
         private void Start()
         {
+            _spawner.Init(transform.position);
             _spawner.CreateWaves();
         }
 
@@ -65,29 +42,17 @@ namespace BoxDefence
             _spawner.SetTilemap(_tilemap);
         }
 
-        public int GetDeadEnemyCount()
+        public IPassedEnemyCounting GetPassedEnemyCounting()
         {
-            return _spawner.GetDeadEnemyCount();
+            throw new NotImplementedException();
         }
-        public int GetEnemyWavesCount()
+        public IDeadEnemyCounting GetDeadEnemyCounting()
         {
-            return _spawner.GetEnemyWavesCount();
+            throw new NotImplementedException();
         }
-        public int GetMaxDeadEnemyCount()
+        public IEnemyWavesCounting GetEnemyWavesCounting()
         {
-            return _spawner.GetMaxDeadEnemyCount();
-        }
-        public int GetMaxEnemyWavesCount()
-        {
-            return _spawner.GetMaxEnemyWavesCount();
-        }
-        public int GetMaxPassedEnemyCount()
-        {
-            return _spawner.GetMaxPassedEnemyCount();
-        }
-        public int GetPassedEnemyCount()
-        {
-            return _spawner.GetPassedEnemyCount();
+            return _spawner.GetEnemyWavesCounting();
         }
 
         #endregion

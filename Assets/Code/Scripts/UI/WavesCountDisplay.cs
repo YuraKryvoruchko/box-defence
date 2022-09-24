@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using AYellowpaper;
+using BoxDefence.TimerSystem;
 
 namespace BoxDefence.UI
 {
@@ -11,6 +12,8 @@ namespace BoxDefence.UI
         [SerializeField] private Text _text;
         [Space]
         [SerializeField] private InterfaceReference<IEnemyWavesCounting, MonoBehaviour> _wavesCounter;
+
+        private Timer _timer;
 
         private int _currentWavesCount = 0;
         private int _maxWavesCount = 0;
@@ -25,8 +28,14 @@ namespace BoxDefence.UI
 
         #region Unity Methods
 
-        private void Start()
+        private void Awake()
         {
+            _timer = new Timer(1f);
+        }
+        private async void Start()
+        {
+            await _timer.StartTimer();
+
             UpdateText();
         }
         private void OnEnable()
