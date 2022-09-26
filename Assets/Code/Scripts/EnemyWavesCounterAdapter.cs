@@ -25,7 +25,7 @@ namespace BoxDefence
 
         #region Properties
 
-        protected IEnemyWavesCounterGetting EnemyWavesCounterGetting 
+        private IEnemyWavesCounterGetting EnemyWavesCounterGetting 
         { 
             get => _enemyWavesCounterGetting.Value; 
         }
