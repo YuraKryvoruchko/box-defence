@@ -11,7 +11,9 @@ namespace BoxDefence.UI
 
         [SerializeField] private Text _text;
         [Space]
-        [SerializeField] private InterfaceReference<IEnemyWavesCounting, MonoBehaviour> _wavesCounter;
+        [SerializeField] private float _delayOnStart = 0.2f;
+        [SerializeField] private InterfaceReference<EnemyWavesCounterAdapting, MonoBehaviour> 
+            _wavesCounter;
 
         private Timer _timer;
 
@@ -22,7 +24,7 @@ namespace BoxDefence.UI
 
         #region Properites
 
-        private IEnemyWavesCounting WavesCounter { get => _wavesCounter.Value; }
+        private EnemyWavesCounterAdapting WavesCounter { get => _wavesCounter.Value; }
 
         #endregion
 
@@ -30,11 +32,13 @@ namespace BoxDefence.UI
 
         private void Awake()
         {
-            _timer = new Timer(1f);
+            _timer = new Timer(_delayOnStart);
         }
         private async void Start()
         {
             await _timer.StartTimer();
+
+            WavesCounter.Init();
 
             UpdateText();
         }

@@ -5774,6 +5774,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _text: {fileID: 2034602805}
+  _delayOnStart: 0.2
   _wavesCounter:
     _underlyingValue: {fileID: 418673216}
 --- !u!1 &1029677350

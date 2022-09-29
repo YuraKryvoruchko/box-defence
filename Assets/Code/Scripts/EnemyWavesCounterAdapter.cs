@@ -4,12 +4,16 @@ using AYellowpaper;
 
 namespace BoxDefence
 { 
-    public class EnemyWavesCounterAdapter : MonoBehaviour, IEnemyWavesCounting
+    public interface EnemyWavesCounterAdapting : IEnemyWavesCounting
+    {
+        void Init();
+    }
+    public class EnemyWavesCounterAdapter : MonoBehaviour, EnemyWavesCounterAdapting
     {
         #region Fields
 
         [SerializeField]
-        private InterfaceReference<IEnemyWavesCounterGetting, MonoBehaviour> 
+        private InterfaceReference<IEnemyWavesCountingAdapter, MonoBehaviour> 
             _enemyWavesCounterGetting;
 
         private IEnemyWavesCounting _enemyWavesCounting;
@@ -25,7 +29,7 @@ namespace BoxDefence
 
         #region Properties
 
-        private IEnemyWavesCounterGetting EnemyWavesCounterGetting 
+        private IEnemyWavesCountingAdapter EnemyWavesCounterGetting 
         { 
             get => _enemyWavesCounterGetting.Value; 
         }
@@ -34,12 +38,6 @@ namespace BoxDefence
 
         #region Unity Methods
 
-        private void Start()
-        {
-            _enemyWavesCounting = EnemyWavesCounterGetting.GetEnemyWavesCounting();
-            _enemyWavesCounting.OnAddEnemyWaves += () => OnAddEnemyWaves?.Invoke();
-            _enemyWavesCounting.OnRemoveEnemyWaves += () => OnRemoveEnemyWaves?.Invoke();
-        }
         private void OnEnable()
         {
             if (_enemyWavesCounting == null)
@@ -58,6 +56,12 @@ namespace BoxDefence
 
         #region Public Methods
 
+        public void Init()
+        {
+            _enemyWavesCounting = EnemyWavesCounterGetting.GetEnemyWavesCounting();
+            _enemyWavesCounting.OnAddEnemyWaves += () => OnAddEnemyWaves?.Invoke();
+            _enemyWavesCounting.OnRemoveEnemyWaves += () => OnRemoveEnemyWaves?.Invoke();
+        }
         public int GetEnemyWavesCount()
         {
             return _enemyWavesCounting.GetEnemyWavesCount();
