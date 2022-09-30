@@ -921,6 +921,7 @@ GameObject:
   - component: {fileID: 634824058}
   - component: {fileID: 634824060}
   - component: {fileID: 634824059}
+  - component: {fileID: 634824061}
   m_Layer: 0
   m_Name: PathTilemap
   m_TagString: Untagged
@@ -5624,10 +5625,6 @@ Tilemap:
   m_TileColorArray:
   - m_RefCount: 456
     m_Data: {r: 1, g: 1, b: 1, a: 1}
-  - m_RefCount: 0
-    m_Data: {r: 0, g: 0, b: 0, a: 0}
-  - m_RefCount: 0
-    m_Data: {r: 0, g: 0, b: 0, a: 0}
   m_TileObjectToInstantiateArray:
   - m_RefCount: 1
     m_Data: {fileID: 1511873140678048661, guid: e6a7f5c8dc820e344a676ae82ad010a9, type: 3}
@@ -5638,7 +5635,7 @@ Tilemap:
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -12, y: -9, z: 0}
-  m_Size: {x: 28, y: 19, z: 1}
+  m_Size: {x: 24, y: 19, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -5658,6 +5655,19 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &634824061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 634824057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55940f95c7f4ccc43b4a0b42b5c478a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tilemap: {fileID: 634824060}
 --- !u!1 &689758480
 GameObject:
   m_ObjectHideFlags: 0
