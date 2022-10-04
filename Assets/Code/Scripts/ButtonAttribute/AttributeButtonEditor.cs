@@ -79,7 +79,7 @@ namespace BoxDefence
                                 GUILayout.Width(MAX_WIDTH)
                             };
 
-            if (GUILayout.Button(attribute.Name, layoutOptions))
+            if (GUILayout.Button(attribute.ButtonText, layoutOptions))
                 methodInfo.Invoke(target, null);
         }
 
