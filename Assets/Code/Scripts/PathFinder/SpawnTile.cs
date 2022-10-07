@@ -9,49 +9,60 @@ namespace BoxDefence.Tilemaps
     {
         #region Actions
 
-        public event Action<IEnemyControlPointing> OnCreateSpanwer;
+        public event Action OnCreateEnemyBase;
+        public event Action<IEnemyControlPointing> OnBroadcastEnemyBase;
 
         #endregion
 
         #region Unity Methods
 
-        public override bool StartUp(Vector3Int position, ITilemap tilemap, GameObject go)
+        public override bool StartUp(Vector3Int position, ITilemap iTilemap, GameObject go)
         {
-            Debug.Log("SpawnTile time: " + Time.realtimeSinceStartup);
-            SetTilemapForSpawner(tilemap, go);
+            try
+            {
+                Tilemap tilemap = GetTilemap(iTilemap);
+                Vector3 basePosition = new Vector3(position.x, position.y, position.z); 
 
-            return base.StartUp(position, tilemap, go);
+                EnemyBase enemyBase = go.GetComponent<EnemyBase>();
+                InitEnemyBase(enemyBase, tilemap, basePosition);
+
+                OnBroadcastEnemyBase?.Invoke(enemyBase);
+                OnCreateEnemyBase?.Invoke();
+            }
+            catch (Exception exception)
+            {
+                Debug.LogException(exception);
+            }
+
+            return base.StartUp(position, iTilemap, go);
         }
 
         #endregion
 
         #region Private Methods
 
-        private void SetTilemapForSpawner(ITilemap tilemap, GameObject go)
+        private void InitEnemyBase(EnemyBase enemyBase, Tilemap tilemap, Vector3 basePosition)
         {
-            try
-            {
-                Tilemap currentTilemap = GetTilemap(tilemap);
-
-                if (go.TryGetComponent(out EnemyControlPoint enemyControlPoint))
-                    enemyControlPoint.SetTilemap(currentTilemap);
-                else
-                    throw new Exception("GameObject dont have Spawner.cs");
-
-                OnCreateSpanwer?.Invoke(enemyControlPoint);
-            }
-            catch (Exception exception)
-            {
-                Debug.LogException(exception);
-            }
+            enemyBase.SetTilemap(tilemap);
+            enemyBase.SetPosition(basePosition);
+            enemyBase.InitSpanwer();
         }
         private Tilemap GetTilemap(ITilemap tilemap)
         {
-            Tilemap currentTilemap = tilemap.GetComponent<Tilemap>();
-            if (currentTilemap == null)
-                throw new Exception("tilemap dont have Tilemap Component");
+            try
+            {
+                Tilemap currentTilemap = tilemap.GetComponent<Tilemap>();
+                if (currentTilemap == null)
+                    throw new Exception("tilemap dont have Tilemap Component");
 
-            return currentTilemap;
+                return currentTilemap;
+            }
+            catch(Exception exception)
+            {
+                Debug.LogException(exception);
+
+                return default;
+            }
         }
 
         #endregion

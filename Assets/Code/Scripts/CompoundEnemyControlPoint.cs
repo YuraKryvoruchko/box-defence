@@ -24,12 +24,12 @@ namespace BoxDefence
         private void OnEnable()
         {
             foreach (SpawnTile spawnTile in _spawnerTiles)
-                spawnTile.OnCreateSpanwer += AddEnemyControlPoint;
+                spawnTile.OnBroadcastEnemyBase += AddEnemyControlPoint;
         }
         private void OnDisable()
         {
             foreach (SpawnTile spawnTile in _spawnerTiles)
-                spawnTile.OnCreateSpanwer -= AddEnemyControlPoint;
+                spawnTile.OnBroadcastEnemyBase -= AddEnemyControlPoint;
         }
 
         #endregion

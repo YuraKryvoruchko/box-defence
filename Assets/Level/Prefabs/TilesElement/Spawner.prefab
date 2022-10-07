@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2317258112260863504}
-  - component: {fileID: 2317258112260863505}
+  - component: {fileID: 753127147877038013}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2317258112260863505
+--- !u!114 &753127147877038013
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,22 +40,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 2317258112260863502}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 059d2622ed126904eb10e03c708d31aa, type: 3}
+  m_Script: {fileID: 11500000, guid: a2eb52317ad569d479aa36e32633adcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _tilemap: {fileID: 0}
   _spawner:
     _path: []
-    _target: {fileID: 0}
     _tilemap: {fileID: 0}
     _waves:
     - _enemyPrefabs:
       - <EnemyPrefab>k__BackingField: {fileID: 1824339458324285662, guid: 7697b451a1e37b34a85189e8d9651e31, type: 3}
-        <CoutnEnemy>k__BackingField: 3
-    - _enemyPrefabs:
-      - <EnemyPrefab>k__BackingField: {fileID: 1824339458324285662, guid: 7697b451a1e37b34a85189e8d9651e31, type: 3}
-        <CoutnEnemy>k__BackingField: 5
+        <CoutnEnemy>k__BackingField: 4
     - _enemyPrefabs:
       - <EnemyPrefab>k__BackingField: {fileID: 1824339458324285662, guid: 7697b451a1e37b34a85189e8d9651e31, type: 3}
         <CoutnEnemy>k__BackingField: 8
-    _timeBetweenWaves: 3
+    _timeBetweenWaves: 4

@@ -921,7 +921,9 @@ GameObject:
   - component: {fileID: 634824058}
   - component: {fileID: 634824060}
   - component: {fileID: 634824059}
+  - component: {fileID: 634824063}
   - component: {fileID: 634824061}
+  - component: {fileID: 634824064}
   m_Layer: 0
   m_Name: PathTilemap
   m_TagString: Untagged
@@ -5668,6 +5670,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tilemap: {fileID: 634824060}
+--- !u!19719996 &634824063
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 634824057}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0.00001
+--- !u!114 &634824064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 634824057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2f90ea95314a6a46b33b43a57dc1f3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawnTiles:
+  - {fileID: 11400000, guid: 9fdb744ef4dcc00418c2c4adad75dbe1, type: 2}
+  - {fileID: 11400000, guid: e98b21571812d544a8e3647c96679f90, type: 2}
+  _tilemap: {fileID: 634824060}
+  _tilemapCollider2D: {fileID: 634824063}
 --- !u!1 &689758480
 GameObject:
   m_ObjectHideFlags: 0
@@ -5784,7 +5819,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _text: {fileID: 2034602805}
-  _delayOnStart: 0.2
+  _spawnTileObserver: {fileID: 634824064}
   _wavesCounter:
     _underlyingValue: {fileID: 418673216}
 --- !u!1 &1029677350

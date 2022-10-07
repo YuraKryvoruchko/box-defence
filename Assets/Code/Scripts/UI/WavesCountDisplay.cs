@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using AYellowpaper;
-using BoxDefence.TimerSystem;
 
 namespace BoxDefence.UI
 {
@@ -11,11 +10,9 @@ namespace BoxDefence.UI
 
         [SerializeField] private Text _text;
         [Space]
-        [SerializeField] private float _delayOnStart = 0.2f;
+        [SerializeField] private SpawnTileObserver _spawnTileObserver;
         [SerializeField] private InterfaceReference<EnemyWavesCounterAdapting, MonoBehaviour> 
             _wavesCounter;
-
-        private Timer _timer;
 
         private int _currentWavesCount = 0;
         private int _maxWavesCount = 0;
@@ -32,22 +29,19 @@ namespace BoxDefence.UI
 
         private void Awake()
         {
-            _timer = new Timer(_delayOnStart);
-        }
-        private async void Start()
-        {
-            await _timer.StartTimer();
-
-            WavesCounter.Init();
-
-            UpdateText();
+            _spawnTileObserver.OnCreateAllEnemyBase += Init;
+            WavesCounter.OnAddEnemyWaves += UpdateText;
         }
         private void OnEnable()
         {
-            WavesCounter.OnAddEnemyWaves += UpdateText;
+            _spawnTileObserver.OnCreateAllEnemyBase += Init;
+
+            if(WavesCounter != null)
+                WavesCounter.OnAddEnemyWaves += UpdateText;
         }
         private void OnDisable()
         {
+            _spawnTileObserver.OnCreateAllEnemyBase -= Init;
             WavesCounter.OnAddEnemyWaves -= UpdateText;
         }
 
@@ -55,6 +49,12 @@ namespace BoxDefence.UI
 
         #region Private Methods
 
+        private void Init()
+        {
+            WavesCounter.Init();
+
+            UpdateText();
+        }
         private void UpdateText()
         {
             _currentWavesCount = WavesCounter.GetEnemyWavesCount();

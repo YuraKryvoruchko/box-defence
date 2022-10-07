@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 namespace BoxDefence
 {
-    public class EnemyControlPoint : MonoBehaviour, IEnemyControlPointing
+    public class EnemyBase : MonoBehaviour, IEnemyControlPointing
     {
         #region Fields
 
@@ -28,7 +28,6 @@ namespace BoxDefence
 
         private void Start()
         {
-            _spawner.Init(transform.position);
             _spawner.CreateWaves();
         }
 
@@ -40,6 +39,14 @@ namespace BoxDefence
         {
             _tilemap = tilemap;
             _spawner.SetTilemap(_tilemap);
+        }
+        public void SetPosition(Vector3 position)
+        {
+            transform.position = position;
+        }
+        public void InitSpanwer()
+        {
+            _spawner.Init(transform.position);
         }
 
         public IPassedEnemyCounting GetPassedEnemyCounting()
