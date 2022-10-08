@@ -23,6 +23,7 @@ namespace BoxDefence.AI
         private int _indexPoint = 0;
 
         public event Action<Enemy> OnDead;
+        public event Action<Enemy> OnPassed;
 
         public static event Action OnLastPoint;
 
@@ -85,6 +86,13 @@ namespace BoxDefence.AI
         private void Destroy()
         {
             OnDead?.Invoke(this);
+            OnLastPoint?.Invoke();
+
+            Destroy(gameObject);
+        }
+        private void PassedLevel()
+        {
+            OnPassed?.Invoke(this);
             OnLastPoint?.Invoke();
 
             Destroy(gameObject);

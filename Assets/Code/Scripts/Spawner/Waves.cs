@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 namespace BoxDefence
 {
     [Serializable]
-    public class Waves
+    public class Waves : IDeadEnemyCounterGetting, IPassedEnemyCounterGetting
     {
         #region Fields
 
@@ -20,8 +20,14 @@ namespace BoxDefence
 
         private readonly Vector3 OFFSET = new Vector3(0.5f, 0.5f, 0f);
 
+        private DeadEnemyCounter _deadEnemyCounter;
+        private PassedEnemyCounter _passedEnemyCounter;
+
+        #endregion
+
+        #region Actions
+
         public event Action<List<Vector2>> OnChangePath;
-        public event Action AllEnemyKills;
         public event Action OnCreateWave;
 
         #endregion
@@ -44,13 +50,12 @@ namespace BoxDefence
         {
             ChangePath(path);
             _createdEnemys = new List<Enemy>();
-            OnCreateWave?.Invoke();
-        }
-        public void ChangePath(List<Vector2> path)
-        {
-            _path = path;
 
-            OnChangePath?.Invoke(_path);
+            int maxEnemyCount = GetAllegedCountEnemys();
+            _deadEnemyCounter = new DeadEnemyCounter(maxEnemyCount);
+            _passedEnemyCounter = new PassedEnemyCounter(maxEnemyCount);
+
+            OnCreateWave?.Invoke();
         }
         public void CreateEnemy(Vector3 spawnPosition)
         {
@@ -70,6 +75,7 @@ namespace BoxDefence
 
                         newEnemy.Init(_path);
                         newEnemy.OnDead += OnDeadEnemy;
+                        newEnemy.OnPassed += OnPassedEnemy;
                         OnChangePath += newEnemy.ChangePath;
 
                         _createdEnemys.Add(newEnemy);
@@ -80,6 +86,12 @@ namespace BoxDefence
             {
                 Debug.LogException(exception);
             }
+        }
+        public void ChangePath(List<Vector2> path)
+        {
+            _path = path;
+
+            OnChangePath?.Invoke(_path);
         }
         public int GetAllegedCountEnemys()
         {
@@ -95,19 +107,38 @@ namespace BoxDefence
             return _createdEnemys.Count;
         }
 
+        public IDeadEnemyCounting GetDeadEnemyCounting()
+        {
+            return _deadEnemyCounter;
+        }
+        public IPassedEnemyCounting GetPassedEnemyCounting()
+        {
+            return _passedEnemyCounter;
+        }
+
         #endregion
 
         #region Private Methods
 
         private void OnDeadEnemy(Enemy enemy)
         {
-            enemy.OnDead -= OnDeadEnemy;
-            OnChangePath -= enemy.ChangePath;
+            UnsubscribeEnemy(enemy);
 
             _createdEnemys.Remove(enemy);
+            _deadEnemyCounter.AddObject();
+        }
+        private void OnPassedEnemy(Enemy enemy)
+        {
+            UnsubscribeEnemy(enemy);
 
-            if (_createdEnemys.Count == 0)
-                AllEnemyKills?.Invoke();
+            _createdEnemys.Remove(enemy);
+            _passedEnemyCounter.AddObject();
+        }
+        private void UnsubscribeEnemy(Enemy enemy)
+        {
+            enemy.OnDead -= OnDeadEnemy;
+            enemy.OnPassed -= OnPassedEnemy;
+            OnChangePath -= enemy.ChangePath;
         }
         private Enemy CreateEnemy(Enemy prefab, Vector3 position, Quaternion quaternion)
         {

@@ -51,11 +51,11 @@ namespace BoxDefence
 
         public IPassedEnemyCounting GetPassedEnemyCounting()
         {
-            throw new NotImplementedException();
+            return _spawner.GetPassedEnemyCounting();
         }
         public IDeadEnemyCounting GetDeadEnemyCounting()
         {
-            throw new NotImplementedException();
+            return _spawner.GetDeadEnemyCounting();
         }
         public IEnemyWavesCounting GetEnemyWavesCounting()
         {

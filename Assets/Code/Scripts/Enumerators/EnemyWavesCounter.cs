@@ -2,7 +2,7 @@
 
 namespace BoxDefence
 {
-    public class EnemyWavesCounter : WavesCounter, IEnemyWavesCounting
+    public class EnemyWavesCounter : ObjectCounter, IEnemyWavesCounting
     {
         #region Counstructor
 
@@ -12,7 +12,7 @@ namespace BoxDefence
         public EnemyWavesCounter(int maxWavesCount, int currentWavesCount) : base(maxWavesCount)
         {
             for (int i = 0; i < currentWavesCount; i++)
-                base.AddWavesToCount();
+                base.AddObject();
         }
 
         #endregion
@@ -28,24 +28,24 @@ namespace BoxDefence
 
         public void AddWaves()
         {
-            base.AddWavesToCount();
+            base.AddObject();
 
             OnAddEnemyWaves?.Invoke();
         }
         public void RemoveWaves()
         {
-            base.RemoveWavesFromCount();
+            base.RemoveObject();
 
             OnRemoveEnemyWaves?.Invoke();
         }
 
         public int GetEnemyWavesCount()
         {
-            return base.GetCurrentWavesCount();
+            return base.GetCount();
         }
         public int GetMaxEnemyWavesCount()
         {
-            return base.GetMaxWavesCount();
+            return base.GetMaxCount();
         }
 
         #endregion
