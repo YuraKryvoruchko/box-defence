@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using AYellowpaper;
 
@@ -9,38 +10,67 @@ namespace BoxDefence.UI
 
         [SerializeField] private GameObject _gameOverPanel;
         [Space]
-        [SerializeField] private int _maxCountEnemyOnLastPoint = 1;
-        [SerializeField] private InterfaceReference<IPassedEnemyCounting, MonoBehaviour> _passedEnemyCounter;
+        [SerializeField] private int _maxPassedEnemyCount;
+        [Space]
+        [SerializeField] private SpawnTileObserver _spawnTileObserver;
+        [SerializeField] private InterfaceReference<IPassedEnemyCounterAdapting, MonoBehaviour> 
+            _passedEnemyCounter;
+
+        private const int GAME_SPEED_ON_START = 1;
+        private const int GAME_SPEED_ON_GAMEOVER = 0;
+
+        private const string NOT_ENOUGH_ENEMIES = "Max passed enemy count less than the maximum " +
+            "number of enemies passed";
 
         #endregion
 
         #region Properties
 
-        private IPassedEnemyCounting PassedEnemyCounter { get => _passedEnemyCounter.Value; }
+        private IPassedEnemyCounterAdapting PassedEnemyCounter { get => _passedEnemyCounter.Value; }
 
         #endregion
 
         #region Unity Methods
 
+        private void Start()
+        {
+            Time.timeScale = GAME_SPEED_ON_START;
+        }
         private void OnEnable()
         {
-            PassedEnemyCounter.OnAddPassedEnemy += CoutnEnemyOnLastPoint;
+            _spawnTileObserver.OnCreateAllEnemyBase += Init;
+
+            if(PassedEnemyCounter != null)
+                PassedEnemyCounter.OnAddPassedEnemy += CoutnEnemyOnLastPoint;
         }
         private void OnDisable()
         {
-            PassedEnemyCounter.OnAddPassedEnemy -= CoutnEnemyOnLastPoint;
+            _spawnTileObserver.OnCreateAllEnemyBase -= Init;
+
+            if (PassedEnemyCounter != null)
+                PassedEnemyCounter.OnAddPassedEnemy -= CoutnEnemyOnLastPoint;
         }
 
         #endregion
 
         #region Private Methods
 
+        private void Init()
+        {
+            PassedEnemyCounter.Init();
+            PassedEnemyCounter.OnAddPassedEnemy += CoutnEnemyOnLastPoint;
+
+            int maxPassedEnemyCount = PassedEnemyCounter.GetMaxPassedEnemyCount();
+            if (maxPassedEnemyCount < _maxPassedEnemyCount)
+                throw new Exception(NOT_ENOUGH_ENEMIES);
+
+            CoutnEnemyOnLastPoint();
+        }
         private void CoutnEnemyOnLastPoint()
         {
             int currentPassedEnemyCoutn = PassedEnemyCounter.GetPassedEnemyCount();
-            int maxPassedEnemyCoutn = PassedEnemyCounter.GetMaxPassedEnemyCount();
 
-            if (currentPassedEnemyCoutn >= maxPassedEnemyCoutn)
+            if (currentPassedEnemyCoutn >= _maxPassedEnemyCount)
                 GameOver();
         }
         private void GameOver()
@@ -49,6 +79,8 @@ namespace BoxDefence.UI
                 _gameOverPanel.SetActive(true);
             else
                 Debug.LogError("Game panel is null!");
+
+            Time.timeScale = GAME_SPEED_ON_GAMEOVER;
         }
 
         #endregion

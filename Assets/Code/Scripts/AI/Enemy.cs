@@ -8,6 +8,8 @@ namespace BoxDefence.AI
 {
     public class Enemy : MonoBehaviour, IWalking
     {
+        #region Fields
+
         [Header("Ñharacteristics")]
         [SerializeField] private float _damage = 100f;
         [Space]
@@ -22,17 +24,23 @@ namespace BoxDefence.AI
 
         private int _indexPoint = 0;
 
+        #endregion
+
+        #region Events
+
         public event Action<Enemy> OnDead;
         public event Action<Enemy> OnPassed;
 
-        public static event Action OnLastPoint;
+        #endregion
+
+        #region Unity Methods
 
         private void Update()
         {
             if (transform.position == _pointPosition)
             {
                 if (IsLastPoint() == true)
-                    Destroy();
+                    PassedLevel();
                 else
                     SetNextPoint();
             }
@@ -40,18 +48,16 @@ namespace BoxDefence.AI
             WalkToPoint();
         }
 
+        #endregion
+
+        #region Public Methods
+
         public void TakeDamage(float damage)
         {
             _damage -= damage;
 
             if (_damage <= 0)
-            {
-                OnDead?.Invoke(this);
-
-                OnDead = null;
-
-                Destroy(gameObject);
-            }
+                Destroy();
         }
         public void Init(List<Vector2> path)
         {
@@ -64,6 +70,10 @@ namespace BoxDefence.AI
         {
             _path = path;
         }
+
+        #endregion
+
+        #region Private Methods
 
         private void WalkToPoint()
         {
@@ -86,14 +96,14 @@ namespace BoxDefence.AI
         private void Destroy()
         {
             OnDead?.Invoke(this);
-            OnLastPoint?.Invoke();
+            OnDead = null;
 
             Destroy(gameObject);
         }
         private void PassedLevel()
         {
             OnPassed?.Invoke(this);
-            OnLastPoint?.Invoke();
+            OnPassed = null;
 
             Destroy(gameObject);
         }
@@ -106,5 +116,7 @@ namespace BoxDefence.AI
 
             return offset;
         }
+
+        #endregion
     }
 }

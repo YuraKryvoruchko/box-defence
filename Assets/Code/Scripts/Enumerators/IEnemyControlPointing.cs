@@ -27,7 +27,7 @@ namespace BoxDefence
         int GetMaxPassedEnemyCount();
     }
 
-    public interface IEnemyWavesCountingAdapter
+    public interface IEnemyWavesCounterGetting
     {
         IEnemyWavesCounting GetEnemyWavesCounting();
     }
@@ -42,7 +42,7 @@ namespace BoxDefence
 
     public interface IEnemyControlPointing : IPassedEnemyCounterGetting,
         IDeadEnemyCounterGetting,
-        IEnemyWavesCountingAdapter
+        IEnemyWavesCounterGetting
     {
     }
 }

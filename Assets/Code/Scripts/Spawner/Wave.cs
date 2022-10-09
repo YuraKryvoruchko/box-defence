@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 namespace BoxDefence
 {
     [Serializable]
-    public class Waves : IDeadEnemyCounterGetting, IPassedEnemyCounterGetting
+    public class Wave : IDeadEnemyCounterGetting, IPassedEnemyCounterGetting
     {
         #region Fields
 
@@ -46,16 +46,13 @@ namespace BoxDefence
 
         #region Public Methonds
 
-        public void Init(List<Vector2> path)
+        public void Init()
         {
-            ChangePath(path);
             _createdEnemys = new List<Enemy>();
 
             int maxEnemyCount = GetAllegedCountEnemys();
             _deadEnemyCounter = new DeadEnemyCounter(maxEnemyCount);
             _passedEnemyCounter = new PassedEnemyCounter(maxEnemyCount);
-
-            OnCreateWave?.Invoke();
         }
         public void CreateEnemy(Vector3 spawnPosition)
         {
@@ -81,6 +78,8 @@ namespace BoxDefence
                         _createdEnemys.Add(newEnemy);
                     }
                 }
+
+                OnCreateWave?.Invoke();
             }
             catch (Exception exception)
             {

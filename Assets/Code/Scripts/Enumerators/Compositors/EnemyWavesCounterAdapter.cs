@@ -4,16 +4,16 @@ using AYellowpaper;
 
 namespace BoxDefence
 { 
-    public interface EnemyWavesCounterAdapting : IEnemyWavesCounting
+    public interface IEnemyWavesCounterAdapting : IEnemyWavesCounting
     {
         void Init();
     }
-    public class EnemyWavesCounterAdapter : MonoBehaviour, EnemyWavesCounterAdapting
+    public class EnemyWavesCounterAdapter : MonoBehaviour, IEnemyWavesCounterAdapting
     {
         #region Fields
 
         [SerializeField]
-        private InterfaceReference<IEnemyWavesCountingAdapter, MonoBehaviour> 
+        private InterfaceReference<IEnemyWavesCounterGetting, MonoBehaviour> 
             _enemyWavesCounterGetting;
 
         private IEnemyWavesCounting _enemyWavesCounting;
@@ -29,7 +29,7 @@ namespace BoxDefence
 
         #region Properties
 
-        private IEnemyWavesCountingAdapter EnemyWavesCounterGetting 
+        private IEnemyWavesCounterGetting EnemyWavesCounterGetting 
         { 
             get => _enemyWavesCounterGetting.Value; 
         }

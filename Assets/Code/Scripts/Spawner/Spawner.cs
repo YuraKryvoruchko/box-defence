@@ -15,7 +15,7 @@ namespace BoxDefence
         [SerializeField] private List<Vector2> _path;
         [SerializeField] private Tilemap _tilemap;
         [Space]
-        [SerializeField] private List<Waves> _waves;
+        [SerializeField] private List<Wave> _waves;
         [Header("Ñharacteristics")]
         [SerializeField] private float _timeBetweenWaves;
 
@@ -27,15 +27,6 @@ namespace BoxDefence
 
         #endregion
 
-        #region Actions
-
-        public event Action OnAddPassedEnemy;
-        public event Action OnRemovePassedEnemy;
-        public event Action OnAddDeadEnemy;
-        public event Action OnRemoveDeadEnemy;
-
-        #endregion
-
         #region Counstructor
 
         public void Init(Vector3 spawnPoint)
@@ -44,12 +35,10 @@ namespace BoxDefence
             _travelPathAgent = new TravelPathAgent(_tilemap, _spawnPoint);
             _enemyCounter = new EnemyWavesCounter(_waves.Count);
             _timer = new Timer(_timeBetweenWaves);
+
+            foreach (Wave wave in _waves)
+                wave.Init();
         }
-
-        #endregion
-
-        #region Unity Methods
-
 
         #endregion
 
@@ -64,18 +53,14 @@ namespace BoxDefence
             _spawnPoint = spawnPoint;
         }
 
-        #endregion
-
-        #region Public Methods
-
         public async void CreateWaves()
         {
             CreatePath();
 
-            foreach (Waves wave in _waves)
+            foreach (Wave wave in _waves)
             {
                 wave.OnCreateWave += _enemyCounter.AddWaves;
-                wave.Init(_path);
+                wave.ChangePath(_path);
                 wave.CreateEnemy(_spawnPoint);
 
                 Debug.Log(_spawnPoint + " wave");
@@ -88,7 +73,7 @@ namespace BoxDefence
         {
             PassedEnemyCompositeCounter passedEnemyCompositeCounter = new PassedEnemyCompositeCounter();
 
-            foreach (Waves wave in _waves)
+            foreach (Wave wave in _waves)
                 passedEnemyCompositeCounter.AddPassedEnemyCounting(wave.GetPassedEnemyCounting());
 
             return passedEnemyCompositeCounter;
@@ -97,7 +82,7 @@ namespace BoxDefence
         {
             DeadEnemyCompositeCounter deadEnemyCompositeCounter = new DeadEnemyCompositeCounter();
 
-            foreach (Waves wave in _waves)
+            foreach (Wave wave in _waves)
                 deadEnemyCompositeCounter.AddDeadEnemyCounting(wave.GetDeadEnemyCounting());
 
             return deadEnemyCompositeCounter;

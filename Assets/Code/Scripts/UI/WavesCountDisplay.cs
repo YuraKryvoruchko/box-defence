@@ -11,7 +11,7 @@ namespace BoxDefence.UI
         [SerializeField] private Text _text;
         [Space]
         [SerializeField] private SpawnTileObserver _spawnTileObserver;
-        [SerializeField] private InterfaceReference<EnemyWavesCounterAdapting, MonoBehaviour> 
+        [SerializeField] private InterfaceReference<IEnemyWavesCounterAdapting, MonoBehaviour> 
             _wavesCounter;
 
         private int _currentWavesCount = 0;
@@ -21,7 +21,7 @@ namespace BoxDefence.UI
 
         #region Properites
 
-        private EnemyWavesCounterAdapting WavesCounter { get => _wavesCounter.Value; }
+        private IEnemyWavesCounterAdapting WavesCounter { get => _wavesCounter.Value; }
 
         #endregion
 

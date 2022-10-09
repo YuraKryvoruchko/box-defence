@@ -38,11 +38,11 @@ namespace BoxDefence
 
             OnRemovePassedEnemy?.Invoke();
         }
-        public int GetMaxPassedEnemyCount()
+        public int GetPassedEnemyCount()
         {
             return base.GetCount();
         }
-        public int GetPassedEnemyCount()
+        public int GetMaxPassedEnemyCount()
         {
             return base.GetMaxCount();
         }

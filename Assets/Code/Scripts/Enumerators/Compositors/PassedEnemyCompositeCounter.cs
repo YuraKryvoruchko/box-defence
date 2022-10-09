@@ -66,11 +66,11 @@ namespace BoxDefence
 
         private void CallEventOnAddPassedEnemy()
         {
-            OnAddPassedEnemy.Invoke();
+            OnAddPassedEnemy?.Invoke();
         }
         private void CallEventOnRemovePassedEnemy()
         {
-            OnRemovePassedEnemy.Invoke();
+            OnRemovePassedEnemy?.Invoke();
         }
 
         #endregion
