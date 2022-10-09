@@ -27,11 +27,6 @@ namespace BoxDefence.UI
 
         #region Unity Methods
 
-        private void Awake()
-        {
-            _spawnTileObserver.OnCreateAllEnemyBase += Init;
-            WavesCounter.OnAddEnemyWaves += UpdateText;
-        }
         private void OnEnable()
         {
             _spawnTileObserver.OnCreateAllEnemyBase += Init;
@@ -42,7 +37,9 @@ namespace BoxDefence.UI
         private void OnDisable()
         {
             _spawnTileObserver.OnCreateAllEnemyBase -= Init;
-            WavesCounter.OnAddEnemyWaves -= UpdateText;
+
+            if (WavesCounter != null)
+                WavesCounter.OnAddEnemyWaves -= UpdateText;
         }
 
         #endregion
@@ -52,6 +49,7 @@ namespace BoxDefence.UI
         private void Init()
         {
             WavesCounter.Init();
+            WavesCounter.OnAddEnemyWaves += UpdateText;
 
             UpdateText();
         }

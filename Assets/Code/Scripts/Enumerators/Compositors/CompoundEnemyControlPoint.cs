@@ -53,36 +53,48 @@ namespace BoxDefence
 
         public IPassedEnemyCounting GetPassedEnemyCounting()
         {
-            throw new NotImplementedException();
-        }
-        public IDeadEnemyCounting GetDeadEnemyCounting()
-        {
-            throw new NotImplementedException();
-        }
-        public IEnemyWavesCounting GetEnemyWavesCounting()
-        {
-            int currentWavesCount = 0;
-            int maxWavesCount = 0;
-
-            foreach(IEnemyControlPointing enemyControlPointing in _enemyControlPoints)
-            {
-                IEnemyWavesCounting enemyWavesCounting = enemyControlPointing.GetEnemyWavesCounting();
-
-                currentWavesCount += enemyWavesCounting.GetEnemyWavesCount();
-                maxWavesCount += enemyWavesCounting.GetMaxEnemyWavesCount();
-            }
-
-            EnemyWavesCounter newWavesCounting = new EnemyWavesCounter(maxWavesCount, currentWavesCount);
+            PassedEnemyCompositeCounter passedEnemyCompositeCounter 
+                = new PassedEnemyCompositeCounter();
 
             foreach (IEnemyControlPointing enemyControlPointing in _enemyControlPoints)
             {
-                IEnemyWavesCounting enemyWavesCounting = enemyControlPointing.GetEnemyWavesCounting();
+                IPassedEnemyCounting passedEnemyCounting = 
+                    enemyControlPointing.GetPassedEnemyCounting();
 
-                enemyWavesCounting.OnAddEnemyWaves += newWavesCounting.AddWaves;
-                enemyWavesCounting.OnRemoveEnemyWaves += newWavesCounting.RemoveWaves;
+                passedEnemyCompositeCounter.AddPassedEnemyCounting(passedEnemyCounting);
             }
 
-            return newWavesCounting;
+            return passedEnemyCompositeCounter;
+        }
+        public IDeadEnemyCounting GetDeadEnemyCounting()
+        {
+            DeadEnemyCompositeCounter passedEnemyCompositeCounter
+                = new DeadEnemyCompositeCounter();
+
+            foreach (IEnemyControlPointing enemyControlPointing in _enemyControlPoints)
+            {
+                IDeadEnemyCounting passedEnemyCounting =
+                    enemyControlPointing.GetDeadEnemyCounting();
+
+                passedEnemyCompositeCounter.AddDeadEnemyCounting(passedEnemyCounting);
+            }
+
+            return passedEnemyCompositeCounter;
+        }
+        public IEnemyWavesCounting GetEnemyWavesCounting()
+        {
+            EnemyWavesCompositeCounter passedEnemyCompositeCounter
+                = new EnemyWavesCompositeCounter();
+
+            foreach (IEnemyControlPointing enemyControlPointing in _enemyControlPoints)
+            {
+                IEnemyWavesCounting passedEnemyCounting =
+                    enemyControlPointing.GetEnemyWavesCounting();
+
+                passedEnemyCompositeCounter.AddEnemyWavesCounter(passedEnemyCounting);
+            }
+
+            return passedEnemyCompositeCounter;
         }
 
         #endregion
