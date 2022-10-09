@@ -86,11 +86,21 @@ namespace BoxDefence
 
         public IPassedEnemyCounting GetPassedEnemyCounting()
         {
-            throw new NotImplementedException();
+            PassedEnemyCompositeCounter passedEnemyCompositeCounter = new PassedEnemyCompositeCounter();
+
+            foreach (Waves wave in _waves)
+                passedEnemyCompositeCounter.AddPassedEnemyCounting(wave.GetPassedEnemyCounting());
+
+            return passedEnemyCompositeCounter;
         }
         public IDeadEnemyCounting GetDeadEnemyCounting()
         {
-            throw new NotImplementedException();
+            DeadEnemyCompositeCounter deadEnemyCompositeCounter = new DeadEnemyCompositeCounter();
+
+            foreach (Waves wave in _waves)
+                deadEnemyCompositeCounter.AddDeadEnemyCounting(wave.GetDeadEnemyCounting());
+
+            return deadEnemyCompositeCounter;
         }
         public IEnemyWavesCounting GetEnemyWavesCounting()
         {

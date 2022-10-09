@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BoxDefence.UI
+namespace BoxDefence
 {
     public class DeadEnemyCompositeCounter : IDeadEnemyCounting
     {
