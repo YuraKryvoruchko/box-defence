@@ -16,7 +16,7 @@ namespace BoxDefence
         private InterfaceReference<IPassedEnemyCounterGetting, MonoBehaviour>
             _passedEnemyCounterGetting;
 
-        private IPassedEnemyCounting _passedEnemyCompositeCounter;
+        private IPassedEnemyCounting _passedEnemyCounter;
 
         #endregion
 
@@ -38,19 +38,19 @@ namespace BoxDefence
 
         private void OnEnable()
         {
-            if (_passedEnemyCompositeCounter == null)
+            if (_passedEnemyCounter == null)
                 return;
 
-            _passedEnemyCompositeCounter.OnAddPassedEnemy += CallEventOnAddPassedEnemy;
-            _passedEnemyCompositeCounter.OnRemovePassedEnemy += CallEventOnRemovePassedEnemy;
+            _passedEnemyCounter.OnAddPassedEnemy += CallEventOnAddPassedEnemy;
+            _passedEnemyCounter.OnRemovePassedEnemy += CallEventOnRemovePassedEnemy;
         }
         private void OnDisable()
         {
-            if (_passedEnemyCompositeCounter == null)
+            if (_passedEnemyCounter == null)
                 return;
 
-            _passedEnemyCompositeCounter.OnAddPassedEnemy -= CallEventOnAddPassedEnemy;
-            _passedEnemyCompositeCounter.OnRemovePassedEnemy -= CallEventOnRemovePassedEnemy;
+            _passedEnemyCounter.OnAddPassedEnemy -= CallEventOnAddPassedEnemy;
+            _passedEnemyCounter.OnRemovePassedEnemy -= CallEventOnRemovePassedEnemy;
         }
 
         #endregion
@@ -59,17 +59,17 @@ namespace BoxDefence
 
         public void Init()
         {
-            _passedEnemyCompositeCounter = PassedEnemyCompositeCounter.GetPassedEnemyCounting();
-            _passedEnemyCompositeCounter.OnAddPassedEnemy += CallEventOnAddPassedEnemy;
-            _passedEnemyCompositeCounter.OnRemovePassedEnemy += CallEventOnRemovePassedEnemy;
+            _passedEnemyCounter = PassedEnemyCompositeCounter.GetPassedEnemyCounting();
+            _passedEnemyCounter.OnAddPassedEnemy += CallEventOnAddPassedEnemy;
+            _passedEnemyCounter.OnRemovePassedEnemy += CallEventOnRemovePassedEnemy;
         }
         public int GetPassedEnemyCount()
         {
-            return _passedEnemyCompositeCounter.GetPassedEnemyCount();
+            return _passedEnemyCounter.GetPassedEnemyCount();
         }
         public int GetMaxPassedEnemyCount()
         {
-            return _passedEnemyCompositeCounter.GetMaxPassedEnemyCount();
+            return _passedEnemyCounter.GetMaxPassedEnemyCount();
         }
 
         #endregion
