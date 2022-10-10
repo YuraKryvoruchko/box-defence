@@ -9,6 +9,7 @@ using Object = UnityEngine.Object;
 
 namespace BoxDefence
 {
+    #if UNITY_EDITOR
     [CustomEditor(typeof(Object),  true, isFallback = false)]
     [CanEditMultipleObjects]
     public class AttributeButtonEditor : Editor
@@ -85,4 +86,5 @@ namespace BoxDefence
 
         #endregion
     }
+    #endif
 }
