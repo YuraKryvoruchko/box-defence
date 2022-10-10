@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 namespace BoxDefence.TimerSystem
 {
@@ -29,7 +29,7 @@ namespace BoxDefence.TimerSystem
 
         #region Public Methods
 
-        public async Task StartTimer()
+        public async UniTask StartTimer()
         {
             OnStartTimer?.Invoke();
 
@@ -46,11 +46,11 @@ namespace BoxDefence.TimerSystem
 
         #region Private Methods
 
-        private async Task StartCountdown(float delay)
+        private async UniTask StartCountdown(float delay)
         {
             TimeSpan shootRateInMilliseconds = TimeSpan.FromSeconds(delay);
 
-            await Task.Delay((int)shootRateInMilliseconds.TotalMilliseconds);
+            await UniTask.Delay((int)shootRateInMilliseconds.TotalMilliseconds);
         }
 
         #endregion
