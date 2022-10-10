@@ -1,6 +1,6 @@
 using System;
 
-namespace BoxDefence
+namespace BoxDefence.Enumerating
 {
     public class ObjectCounter
     {

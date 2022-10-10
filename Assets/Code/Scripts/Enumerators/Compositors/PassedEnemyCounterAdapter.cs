@@ -2,7 +2,7 @@
 using UnityEngine;
 using AYellowpaper;
 
-namespace BoxDefence
+namespace BoxDefence.Enumerating
 {
     public interface IPassedEnemyCounterAdapting : IPassedEnemyCounting
     {
@@ -78,11 +78,11 @@ namespace BoxDefence
 
         private void CallEventOnAddPassedEnemy()
         {
-            OnAddPassedEnemy.Invoke();
+            OnAddPassedEnemy?.Invoke();
         }
         private void CallEventOnRemovePassedEnemy()
         {
-            OnRemovePassedEnemy.Invoke();
+            OnRemovePassedEnemy?.Invoke();
         }
 
         #endregion

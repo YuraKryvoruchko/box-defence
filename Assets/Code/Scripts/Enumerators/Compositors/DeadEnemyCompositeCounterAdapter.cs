@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System;
 
-namespace BoxDefence.UI
+namespace BoxDefence.Enumerating
 {
-    public class DeadEnemyCompositeCounterMonoAdapter : MonoBehaviour, IDeadEnemyCounting
+    public class DeadEnemyCompositeCounterAdapter : MonoBehaviour, IDeadEnemyCounting
     {
         #region Fields
 

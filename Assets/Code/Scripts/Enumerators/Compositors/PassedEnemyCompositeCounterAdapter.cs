@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BoxDefence.Tilemaps;
 
-namespace BoxDefence
+namespace BoxDefence.Enumerating
 {
     public class PassedEnemyCompositeCounterAdapter : MonoBehaviour, IPassedEnemyCounting
     {

@@ -2,7 +2,7 @@
 using UnityEngine;
 using AYellowpaper;
 
-namespace BoxDefence
+namespace BoxDefence.Enumerating
 { 
     public interface IEnemyWavesCounterAdapting : IEnemyWavesCounting
     {

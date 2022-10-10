@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using AYellowpaper;
+using BoxDefence.Enumerating;
 
 namespace BoxDefence.UI
 {
@@ -49,6 +50,15 @@ namespace BoxDefence.UI
 
             if (PassedEnemyCounter != null)
                 PassedEnemyCounter.OnAddPassedEnemy -= CoutnEnemyOnLastPoint;
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public int GetMaxPassedEnemyCount()
+        {
+            return _maxPassedEnemyCount;
         }
 
         #endregion

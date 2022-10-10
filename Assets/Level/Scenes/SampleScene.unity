@@ -177,6 +177,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 141682434}
+  - component: {fileID: 141682435}
   m_Layer: 0
   m_Name: DeadEnemyCounterAdapter
   m_TagString: Untagged
@@ -198,6 +199,20 @@ Transform:
   m_Father: {fileID: 584262132}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &141682435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141682433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63803fb8fbd6e9243a2e271c5f08d735, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _deadEnemyCounterGetting:
+    _underlyingValue: {fileID: 385631893}
 --- !u!1 &165313415
 GameObject:
   m_ObjectHideFlags: 0
@@ -5780,6 +5795,8 @@ GameObject:
   - component: {fileID: 689758481}
   - component: {fileID: 689758488}
   - component: {fileID: 689758485}
+  - component: {fileID: 689758486}
+  - component: {fileID: 689758487}
   m_Layer: 5
   m_Name: CanvasMenu
   m_TagString: Untagged
@@ -5862,6 +5879,7 @@ RectTransform:
   - {fileID: 1668910324}
   - {fileID: 2043779366}
   - {fileID: 2034602807}
+  - {fileID: 2103077833}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5885,6 +5903,41 @@ MonoBehaviour:
   _gameOverPanel: {fileID: 2043779363}
   _maxPassedEnemyCount: 10
   _spawnTileObserver: {fileID: 634824064}
+  _passedEnemyCounter:
+    _underlyingValue: {fileID: 1935033648}
+--- !u!114 &689758486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689758480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1147485c62342f146b23cd74ad003aae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _winPanel: {fileID: 1668910321}
+  _spawnTileObserver: {fileID: 634824064}
+  _deadEnemyCounting:
+    _underlyingValue: {fileID: 141682435}
+  _passedEnemyCounting:
+    _underlyingValue: {fileID: 1935033648}
+--- !u!114 &689758487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689758480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2cc1a5953ff8734c9b412c2e1f64f0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _text: {fileID: 2103077831}
+  _spawnTileObserver: {fileID: 634824064}
+  _observerOfEscapeEnemy: {fileID: 689758485}
   _passedEnemyCounter:
     _underlyingValue: {fileID: 1935033648}
 --- !u!114 &689758488
@@ -6799,7 +6852,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1935033646}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a7c75a9f50f8014aa19d0eb746dcf12, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f456713bff33134580437a90a087598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _passedEnemyCounterGetting:
@@ -6816,7 +6869,7 @@ GameObject:
   - component: {fileID: 2034602806}
   - component: {fileID: 2034602805}
   m_Layer: 5
-  m_Name: Waves
+  m_Name: WavesCounter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6849,10 +6902,10 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 123
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
+    m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 0
@@ -7016,6 +7069,85 @@ MonoBehaviour:
   _maxLevelSprite: {fileID: 8961202016936256020, guid: 76c48d7daae6e2d4c85b529e7107c9e5, type: 3}
   _improveButtonImage: {fileID: 1505884932}
   _wallet: {fileID: 11400000, guid: 8f1fcbbc8b800794897e73113185e440, type: 2}
+--- !u!1 &2103077830
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2103077833}
+  - component: {fileID: 2103077832}
+  - component: {fileID: 2103077831}
+  m_Layer: 5
+  m_Name: PassedEnemyCounter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2103077831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103077830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 75
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 123
+    m_Alignment: 3
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 0
+--- !u!222 &2103077832
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103077830}
+  m_CullTransparentMesh: 1
+--- !u!224 &2103077833
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103077830}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 689758484}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.019000001, y: 0.7064816}
+  m_AnchorMax: {x: 0.19100001, y: 0.813}
+  m_AnchoredPosition: {x: 0.5, y: -0.5}
+  m_SizeDelta: {x: -1.7382812, y: -0.92401123}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2113981175
 GameObject:
   m_ObjectHideFlags: 0

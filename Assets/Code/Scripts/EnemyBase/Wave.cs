@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using BoxDefence.AI;
+using BoxDefence.Enumerating;
 
 using Random = UnityEngine.Random;
 

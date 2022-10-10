@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BoxDefence
+namespace BoxDefence.Enumerating
 {
     public class PassedEnemyCompositeCounter : IPassedEnemyCounting
     {
