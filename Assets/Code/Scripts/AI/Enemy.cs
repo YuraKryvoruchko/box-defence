@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using BoxDefence.Damage;
 
 using Random = UnityEngine.Random;
 
@@ -11,7 +12,7 @@ namespace BoxDefence.AI
         #region Fields
 
         [Header("Ñharacteristics")]
-        [SerializeField] private float _damage = 100f;
+        [SerializeField] private float _health = 100f;
         [Space]
         [SerializeField] private float _speed = 1f;
         [Space]
@@ -52,11 +53,19 @@ namespace BoxDefence.AI
 
         #region Public Methods
 
-        public void TakeDamage(float damage)
+        public virtual void TakeDamage(float damage)
         {
-            _damage -= damage;
+            _health -= damage;
 
-            if (_damage <= 0)
+            if (_health <= 0)
+                Destroy();
+        }
+        public virtual void TakeDamage(IDamager damager)
+        {
+            float damage = damager.GetDamage();
+            _health -= damage;
+
+            if (_health <= 0)
                 Destroy();
         }
         public void Init(List<Vector2> path)
@@ -93,7 +102,7 @@ namespace BoxDefence.AI
             else
                 return false;
         }
-        private void Destroy()
+        protected void Destroy()
         {
             OnDead?.Invoke(this);
             OnDead = null;
