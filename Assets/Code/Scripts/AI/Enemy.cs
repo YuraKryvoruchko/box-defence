@@ -25,6 +25,10 @@ namespace BoxDefence.AI
 
         private int _indexPoint = 0;
 
+        private float _healthOnStart;
+
+        private const int MAX_HEALTH_PERCENTAGE = 100;
+
         #endregion
 
         #region Events
@@ -36,7 +40,11 @@ namespace BoxDefence.AI
 
         #region Unity Methods
 
-        private void Update()
+        protected void Awake()
+        {
+            _healthOnStart = _health;
+        }
+        protected void Update()
         {
             if (transform.position == _pointPosition)
             {
@@ -67,6 +75,18 @@ namespace BoxDefence.AI
 
             if (_health <= 0)
                 Destroy();
+        }
+        public void TreatOn(float percentageInDozens)
+        {
+            if (_health == _healthOnStart)
+                return;
+
+            float healthOnOnePercentage = _healthOnStart / MAX_HEALTH_PERCENTAGE;
+            float addedHealth = healthOnOnePercentage * percentageInDozens;
+
+            _health += addedHealth;
+            if (_health > _healthOnStart)
+                _health = _healthOnStart;
         }
         public void Init(List<Vector2> path)
         {
