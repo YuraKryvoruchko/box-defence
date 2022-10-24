@@ -377,6 +377,63 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7697b451a1e37b34a85189e8d9651e31, type: 3}
+--- !u!1001 &863629526746415158
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2955130669521814786, guid: b624f564824e3bd45b97bd681805daec, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955130669521814786, guid: b624f564824e3bd45b97bd681805daec, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.002
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955130669521814786, guid: b624f564824e3bd45b97bd681805daec, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.729
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955130669521814786, guid: b624f564824e3bd45b97bd681805daec, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955130669521814786, guid: b624f564824e3bd45b97bd681805daec, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955130669521814786, guid: b624f564824e3bd45b97bd681805daec, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955130669521814786, guid: b624f564824e3bd45b97bd681805daec, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955130669521814786, guid: b624f564824e3bd45b97bd681805daec, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955130669521814786, guid: b624f564824e3bd45b97bd681805daec, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955130669521814786, guid: b624f564824e3bd45b97bd681805daec, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955130669521814786, guid: b624f564824e3bd45b97bd681805daec, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091819051998570481, guid: b624f564824e3bd45b97bd681805daec, type: 3}
+      propertyPath: m_Name
+      value: DefenderOfEnemyWave
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b624f564824e3bd45b97bd681805daec, type: 3}
 --- !u!1001 &4977498844213449679
 PrefabInstance:
   m_ObjectHideFlags: 0
