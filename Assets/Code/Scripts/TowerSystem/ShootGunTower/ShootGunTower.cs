@@ -1,12 +1,13 @@
+using BoxDefence.AI;
+using BoxDefence.DamageSystem;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using BoxDefence.AI;
 
 namespace BoxDefence.Towers
 {
     [RequireComponent(typeof(CircleCollider2D))]
-    public class ShootGunTower : ImprovingTower<ShootGunTower.ShootGunTowerLevel>, ILogicTowerAdapter, 
+    public class ShootGunTower : ImprovingTower<ShootGunTower.ShootGunTowerLevel>, ILogicTowerAdapter,
         IShooterTowerAdapter, ITowerCharacteristic<ShootGunTower.ShootGunTowerLevel>
     {
         #region Fields
@@ -15,8 +16,8 @@ namespace BoxDefence.Towers
         [SerializeField] private List<Enemy> _enemysInShootZone;
         [Header("Ñharacteristics")]
         [SerializeField] private float _shootRate = 1f;
-        [SerializeField] private float _damage = 10f;
         [SerializeField] private float _colliderRadius = 3f;
+        [SerializeField] private Damage _damage;
         [Header("Other")]
         [SerializeField] private GameObject _upperTower;
 
@@ -40,7 +41,7 @@ namespace BoxDefence.Towers
 
         public List<Enemy> EnemysInShootZone { get => _enemysInShootZone; set => _enemysInShootZone = value; }
 
-        public float Damage { get => _damage; }
+        public IDamager Damage { get => _damage; }
         public float ShootRate { get => _shootRate; }
 
         public Bullet BulletPrefab { get => _bulletPrefab; }
@@ -61,9 +62,9 @@ namespace BoxDefence.Towers
             [field: Space]
             [field: SerializeField] public int PriceImprovement { get; private set; }
             [field: Space]
-            [field: SerializeField] public float Damage { get; private set; }
             [field: SerializeField] public float ShootRate { get; private set; }
             [field: SerializeField] public float ColliderRadius { get; private set; }
+            [field: SerializeField] public Damage Damage { get; private set; }
             [field: Space]
             [field: SerializeField] public Sprite TowerFoundation { get; private set; }
             [field: SerializeField] public Sprite UpperTower { get; private set; }
@@ -95,13 +96,13 @@ namespace BoxDefence.Towers
 
         private void Update()
         {
-            if (CurrentEnemy != null)
-            {
-                if(_towerShooter.CanShoot() == true)
-                    _towerShooter.Shoot(CurrentEnemy);
+            if (CurrentEnemy == null)
+                return;
 
-                _towerWathcer.WatchTheEnemy(transform, CurrentEnemy.transform.position);
-            }
+            if (_towerShooter.CanShoot() == true)
+                _towerShooter.Shoot(CurrentEnemy);
+
+            _towerWathcer.WatchTheEnemy(transform, CurrentEnemy.transform.position);
         }
 
         #endregion

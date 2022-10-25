@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using BoxDefence.Damage;
+using BoxDefence.DamageSystem;
 
 using Random = UnityEngine.Random;
 

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using BoxDefence.TimerSystem;
-using BoxDefence.Damage;
+using BoxDefence.DamageSystem;
 
 namespace BoxDefence.AI
 { 
@@ -10,7 +10,7 @@ namespace BoxDefence.AI
 
         [Space]
         [SerializeField] private float _damageAbsorptionPercentage = 15f;
-        [SerializeField] private CircleCollider2D antiDamageShield;
+        [SerializeField] private CircleCollider2D _antiDamageShield;
         [Space]
         [SerializeField] private float _periodProtectEnemies = 5f;
 
@@ -35,6 +35,11 @@ namespace BoxDefence.AI
             if (collision.TryGetComponent(out IDamager damager) == true)
                 damager.DepleteBy(_damageAbsorptionPercentage);
         }
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if (collision.TryGetComponent(out IDamager damager) == true)
+                damager.IncreaseBy(_damageAbsorptionPercentage);
+        }
 
         #endregion
 
@@ -42,11 +47,11 @@ namespace BoxDefence.AI
 
         private async void StartTimerToEnableShield()
         {
-            antiDamageShield.enabled = ENABLE_SHIELD;
+            _antiDamageShield.enabled = ENABLE_SHIELD;
 
             await _timer.StartTimer();
 
-            antiDamageShield.enabled = DISABLE_SHIELD;
+            _antiDamageShield.enabled = DISABLE_SHIELD;
         }
 
         #endregion

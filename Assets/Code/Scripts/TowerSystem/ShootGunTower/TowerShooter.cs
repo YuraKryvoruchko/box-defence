@@ -32,16 +32,16 @@ namespace BoxDefence.Towers
 
         public void Shoot(Enemy enemy)
         {
-            if (CanShoot() == true)
-            {
-                Bullet bullet = _objectPooler.GetObject(_shooterTowerAdaper.BulletPrefab,
-                                                        _shooterTowerAdaper.SpawnPoint.position, 
-                                                        Quaternion.identity);
+            if (CanShoot() == false)
+                return;
 
-                bullet.OnStart(_shooterTowerAdaper.Damage, enemy);
+            Bullet bullet = _objectPooler.GetObject(_shooterTowerAdaper.BulletPrefab,
+                                                    _shooterTowerAdaper.SpawnPoint.position,
+                                                    Quaternion.identity);
 
-                _shootingBlocator.BlockShootingOn(_shooterTowerAdaper.ShootRate);
-            }
+            bullet.OnStart(_shooterTowerAdaper.Damage, enemy);
+
+            _shootingBlocator.BlockShootingOn(_shooterTowerAdaper.ShootRate);
         }
         public bool CanShoot()
         {

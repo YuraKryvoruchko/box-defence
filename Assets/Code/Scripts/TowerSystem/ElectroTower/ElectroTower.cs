@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using BoxDefence.AI;
+using BoxDefence.DamageSystem;
 
 namespace BoxDefence.Towers
 {
@@ -14,8 +15,8 @@ namespace BoxDefence.Towers
         [Space]
         [SerializeField] private List<Enemy> _enemysInShootZone;
         [Header("Ñharacteristics")]
-        [SerializeField] private float _damage = 10f;
         [SerializeField] private float _colliderRadius = 3f;
+        [SerializeField] private Damage _damage;
         [Header("Other")]
         [SerializeField] private LineRenderer _lineRenderer;
         [SerializeField] private ElectroTowerLevel[] _electroTowerLevels;
@@ -31,7 +32,7 @@ namespace BoxDefence.Towers
 
         #region Properties
 
-        public float Damage { get => _damage; }
+        public IDamager Damage { get => _damage; }
 
         public LineRenderer Line { get => _lineRenderer; }
 
@@ -53,8 +54,8 @@ namespace BoxDefence.Towers
             [field: Space]
             [field: SerializeField] public int PriceImprovement { get; private set; }
             [field: Space]
-            [field: SerializeField] public float Damage { get; private set; }
             [field: SerializeField] public float ColliderRadius { get; private set; }
+            [field: SerializeField] public Damage Damage { get; private set; }
             [field: Space]
             [field: SerializeField] public Sprite TowerFoundation { get; private set; }
         }

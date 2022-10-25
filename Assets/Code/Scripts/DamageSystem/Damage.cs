@@ -1,13 +1,14 @@
 ﻿using System;
 using UnityEngine;
 
-namespace BoxDefence.Damage
+namespace BoxDefence.DamageSystem
 {
     public interface IDamager
     {
         float GetDamage();
         DamageType GetDamageType();
         void DepleteBy(float percentageInDozens);
+        void IncreaseBy(float percentageInDozens);
     }
 
     [Serializable]
@@ -53,6 +54,16 @@ namespace BoxDefence.Damage
             float lostDamage = damageOnOnePercentage * percentageInDozens;
 
             _damage -= lostDamage;
+        }
+        public void IncreaseBy(float percentageInDozens)
+        {
+            if (percentageInDozens < MIN_PERCENTAGE)
+                throw new Exception("The percentage cannot be less than zero");
+
+            float damageOnOnePercentage = _damage / MAX_PERCENTAGE;
+            float addedDamage = damageOnOnePercentage * percentageInDozens;
+
+            _damage += addedDamage;
         }
 
         #endregion

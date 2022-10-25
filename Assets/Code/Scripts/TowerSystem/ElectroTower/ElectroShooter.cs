@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using BoxDefence.AI;
+using BoxDefence.DamageSystem;
 
 namespace BoxDefence.Towers
 {
@@ -8,6 +9,8 @@ namespace BoxDefence.Towers
         #region Fields
 
         private IElectroTowerAdaper _electroTowerAdaper;
+
+        private IDamager _towerDamager;
 
         private LineRenderer _line;
 
@@ -21,6 +24,7 @@ namespace BoxDefence.Towers
         public ElectroShooter(IElectroTowerAdaper electroTowerAdaper)
         {
             _electroTowerAdaper = electroTowerAdaper;
+            _towerDamager = electroTowerAdaper.Damage;
             _line = _electroTowerAdaper.Line;
         }
 
@@ -32,9 +36,10 @@ namespace BoxDefence.Towers
         {
             DrawLine(enemy.transform.position);
 
-            float damage = _electroTowerAdaper.Damage * Time.deltaTime;
+            float damage = _towerDamager.GetDamage() * Time.deltaTime;
+            Damage damager = new Damage(damage, _towerDamager.GetDamageType());
 
-            enemy.TakeDamage(damage);
+            enemy.TakeDamage(damager);
         }
 
         #endregion

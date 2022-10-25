@@ -1,4 +1,4 @@
-﻿namespace BoxDefence.Damage
+﻿namespace BoxDefence.DamageSystem
 {
     public enum DamageType
     {

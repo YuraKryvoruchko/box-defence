@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using BoxDefence.Damage;
+using BoxDefence.DamageSystem;
 using BoxDefence.TimerSystem;
 
 namespace BoxDefence.AI

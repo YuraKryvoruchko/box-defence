@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using BoxDefence.DamageSystem;
 
 namespace BoxDefence.Towers
 {
     public interface IShooterTowerAdapter
     {
-        float Damage { get; }
+        IDamager Damage { get; }
         float ShootRate { get; }
 
         Bullet BulletPrefab { get; }

@@ -1,32 +1,47 @@
 using UnityEngine;
 using BoxDefence.AI;
 using BoxDefence.Pooling;
+using BoxDefence.DamageSystem;
 
-public class Bullet : MonoBehaviour, IPoolObject
+public class Bullet : MonoBehaviour, IPoolObject, IDamager
 {
+    #region Fields
+
     [Header("Ñharacteristics")]
-    [SerializeField] private float _damage;
     [SerializeField] private float _speed;
-    [field: Space]
+    [SerializeField] private IDamager _defaultDamage;
 
     private Enemy _targetEnemy;
 
+    #endregion
+
+    #region Properties
+
+    [field: Space]
     [field: SerializeField] public PoolType PoolTypeObject { get; private set; }
+
+    #endregion
+
+    #region Unity Methods
 
     private void Update()
     {
         MoveToEnemy();
     }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.transform.TryGetComponent(out Enemy enemy) && enemy == _targetEnemy)
         {
-            enemy.TakeDamage(_damage);
+            enemy.TakeDamage(_defaultDamage);
 
             Destroy();
         }
     }
+
+    #endregion
+
+    #region Public Methods
+
     public void Init(Vector3 position, Quaternion rotation)
     {
         gameObject.SetActive(true);
@@ -34,11 +49,32 @@ public class Bullet : MonoBehaviour, IPoolObject
         transform.position = position;
         transform.rotation = rotation;
     }
-    public void OnStart(float damage, Enemy target)
+    public void OnStart(IDamager damager, Enemy target)
     {
-        _damage = damage;
+        _defaultDamage = damager;
         _targetEnemy = target;
     }
+
+    public float GetDamage()
+    {
+        return _defaultDamage.GetDamage();
+    }
+    public DamageType GetDamageType()
+    {
+        return _defaultDamage.GetDamageType();
+    }
+    public void DepleteBy(float percentageInDozens)
+    {
+        _defaultDamage.DepleteBy(percentageInDozens);
+    }
+    public void IncreaseBy(float percentageInDozens)
+    {
+        _defaultDamage.IncreaseBy(percentageInDozens);
+    }
+
+    #endregion
+
+    #region Private Methods
 
     private void MoveToEnemy()
     {
@@ -55,4 +91,6 @@ public class Bullet : MonoBehaviour, IPoolObject
 
         gameObject.SetActive(false);
     }
+
+    #endregion
 }
