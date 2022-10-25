@@ -28,8 +28,12 @@ namespace BoxDefence.AI
             base.Awake();
 
             _timer = new Timer(_periodProtectEnemies);
-            _timer.OnEndTimer += StartTimerToEnableShield;
         }
+        private void Start()
+        {
+            RunShieldWorkLoop();
+        }
+
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.TryGetComponent(out IDamager damager) == true)
@@ -45,13 +49,18 @@ namespace BoxDefence.AI
 
         #region Private Methods
 
-        private async void StartTimerToEnableShield()
+        private async void RunShieldWorkLoop()
         {
-            _antiDamageShield.enabled = ENABLE_SHIELD;
+            while (true)
+            {
+                _antiDamageShield.enabled = ENABLE_SHIELD;
 
-            await _timer.StartTimer();
+                await _timer.StartTimer();
 
-            _antiDamageShield.enabled = DISABLE_SHIELD;
+                _antiDamageShield.enabled = DISABLE_SHIELD;
+
+                await _timer.StartTimer();
+            }
         }
 
         #endregion

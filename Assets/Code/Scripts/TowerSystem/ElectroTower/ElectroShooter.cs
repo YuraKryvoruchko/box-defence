@@ -4,7 +4,7 @@ using BoxDefence.DamageSystem;
 
 namespace BoxDefence.Towers
 {
-    public class ElectroShooter : IShooting
+    public class ElectroShooter : IShooting, IDamager
     {
         #region Fields
 
@@ -14,6 +14,9 @@ namespace BoxDefence.Towers
 
         private LineRenderer _line;
 
+        private float _percentageLostDamage;
+
+        private const int MAX_DAMAGE_PERCENTAGE = 100;
         private const int INDEX_STARTING_POINT = 0;
         private const int INDEX_ENDING_POINT = 1;
 
@@ -36,16 +39,48 @@ namespace BoxDefence.Towers
         {
             DrawLine(enemy.transform.position);
 
-            float damage = _towerDamager.GetDamage() * Time.deltaTime;
+            float currentDamage = GetDamage();
+            float damage = currentDamage * Time.deltaTime;
+
             Damage damager = new Damage(damage, _towerDamager.GetDamageType());
 
             enemy.TakeDamage(damager);
+        }
+
+        public float GetDamage()
+        {
+            float defaultDamage = _towerDamager.GetDamage();
+            float lostDamage = GetLostDamage();
+
+            defaultDamage -= lostDamage;
+
+            return defaultDamage;
+        }
+        public DamageType GetDamageType()
+        {
+            return _towerDamager.GetDamageType();
+        }
+        public void DepleteBy(float percentageInDozens)
+        {
+            _percentageLostDamage += percentageInDozens;
+        }
+        public void IncreaseBy(float percentageInDozens)
+        {
+            _percentageLostDamage -= percentageInDozens;
         }
 
         #endregion
 
         #region Private Methods
 
+        private float GetLostDamage()
+        {
+            float defaultDamage = _towerDamager.GetDamage();
+            float demageInOnePercentage = defaultDamage / MAX_DAMAGE_PERCENTAGE;
+            float lostDamage = demageInOnePercentage * _percentageLostDamage;
+
+            return lostDamage;
+        }
         private void DrawLine(Vector3 endPoint)
         {
             _line.SetPosition(INDEX_STARTING_POINT, _line.transform.position);

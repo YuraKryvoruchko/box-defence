@@ -19,13 +19,13 @@ namespace BoxDefence.Towers
         [SerializeField] private Damage _damage;
         [Header("Other")]
         [SerializeField] private LineRenderer _lineRenderer;
+        [SerializeField] private ElectroLine _electroLine;
         [SerializeField] private ElectroTowerLevel[] _electroTowerLevels;
 
         private CircleCollider2D _circleCollider2D;
 
         private Enemy _currentEnemy;
 
-        private ElectroShooter _electroShooter;
         private TowerCollisionHandling _towerCollisionHandling;
 
         #endregion
@@ -68,7 +68,8 @@ namespace BoxDefence.Towers
         {
             _circleCollider2D = GetComponent<CircleCollider2D>();
 
-            _electroShooter = new ElectroShooter(this);
+            _electroLine.Init(this);
+
             _towerCollisionHandling = new TowerCollisionHandling(this);
             TowerImrpover = new TowerImrpover<ElectroTowerLevel>(this);
         }
@@ -85,7 +86,7 @@ namespace BoxDefence.Towers
         private void Update()
         {
             if (_currentEnemy != null)
-                _electroShooter.Shoot(_currentEnemy);
+                _electroLine.Shoot(_currentEnemy);
         }
 
         #endregion
@@ -99,10 +100,6 @@ namespace BoxDefence.Towers
             _circleCollider2D.radius = _colliderRadius;
             GetComponent<SpriteRenderer>().sprite = levelCharacteristic.TowerFoundation;
         }
-
-        #endregion
-
-        #region Private Methods
 
         #endregion
     }
